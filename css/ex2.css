@@ -1,0 +1,16 @@
+h1,
+h2 {
+  color: aqua;
+  font: bold;
+  background-color: hsl(0, 73%, 48%);
+}
+.h3,
+.h4 {
+  color: rgb(155, 55, 0);
+  font-size: 30px;
+}
+#h5,
+#h6 {
+  font-style: italic;
+  font-weight: bold;
+}
