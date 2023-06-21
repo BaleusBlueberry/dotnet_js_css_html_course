@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/react/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      let names = ["simon", "bob", "risha", "siphen"];
+
+      // names of projects
+      const namesOfProjects = names.map((name, i) => ({
+        id: i,
+        value: name,
+      }));
+
+      function Siteheader(props) {
+        return (
+          <header>
+            <h1>this is {props.name}</h1>
+          </header>
+        );
+      }
+
+      function Mainapp(props) {
+        return (
+          <React.Fragment>
+            {props.data.map((item, i) => (
+              <p key={item.id}>
+                {item.value} is {props.feeling}
+              </p>
+            ))}
+            <img src="https://www.tamberlanecomic.com/your_content/images/Discord%20Button%20Site.png"></img>
+          </React.Fragment>
+        );
+      }
+
+      function SiteFooter(props) {
+        return <footer>this is the footer, trademark {props.year}</footer>;
+      }
+
+      let root = document.getElementById("root");
+      // let h2Element = React.createElement("h2", null, "Hello world");
+
+      // let ul = React.createElement(
+      //   "ul",
+      //   null,
+      //   React.createElement("li", null, "simon"),
+      //   React.createElement("li", null, "bob"),
+      //   React.createElement("li", null, "risha"),
+      //   React.createElement("li", null, "siphen")
+
+      // JSX - Java Script XML
+      /*<ul>
+          <li>{names[0]}</li>
+          <li>{names[1]}</li>
+          <li>{names[2]}</li>
+          <li>{names[3]}</li>
+        </ul>*/
+
+      ReactDOM.render(
+        <React.Fragment>
+          <Siteheader name="jizing" />
+          <Mainapp feeling="consurne" data={namesOfProjects} />
+          <SiteFooter year={new Date().getFullYear()} />
+        </React.Fragment>,
+        root
+      );
+    </script>
+  </body>
+</html>
