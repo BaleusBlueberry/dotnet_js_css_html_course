@@ -2,3 +2,4 @@ open a new project: npx create-react-app name
 start the project: npm start
 go to a directory: cd /location
 if bug : npm cache clean --force
+install the interface of the server: npm install react-router-dom
