@@ -1,7 +1,7 @@
 function EditItem() {
   return (
     <>
-      <h1>Itmes to edit</h1>
+      <h1>Items to edit:</h1>
     </>
   );
 }

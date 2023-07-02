@@ -1,7 +1,9 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useReducer } from "react";
 import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Home } from "./Pages/Home";
+import { AddItem } from "./Pages/AddItem";
+import { EditItem } from "./Pages/EditItem";
 
 const initualState = {
   items: [],
@@ -37,10 +39,24 @@ function App() {
         <li>
           <Link to="/add">Add Item</Link>
         </li>
+        <li>
+          <Link to="/edit">Edit Item</Link>
+        </li>
       </ul>
       <hr />
       <Routes>
-        <Route path="A" />
+        <Route
+          path="/"
+          Component={() => <Home state={state} dispatcher={dispatcher} />}
+        />
+        <Route
+          path="/add"
+          Component={() => <AddItem state={state} dispatcher={dispatcher} />}
+        />
+        <Route
+          path="/edit"
+          Component={() => <EditItem state={state} dispatcher={dispatcher} />}
+        />
       </Routes>
     </Router>
   );
