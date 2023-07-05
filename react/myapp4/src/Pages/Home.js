@@ -6,7 +6,8 @@ function Home({ state, dispatcher }) {
       <h1>ToDo Items</h1>
       {state.items.map((item, index) => (
         <li key={index}>
-          {item} | <Link to="edit">Edit</Link> | <button>Delete</button>
+          {item} | <Link to={`/edit/${index}`}>Edit</Link> |{" "}
+          <button>Delete</button>
         </li>
       ))}
     </>
