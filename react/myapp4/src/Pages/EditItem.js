@@ -30,7 +30,7 @@ function EditItem({ dispatcher, state }) {
           type="text"
           ref={inputRef}
           value={item}
-          onChange={(e) => setItem(e.target.value)}
+          // onChange={(e) => setItem(e.target.value)}
         />
         <button>Submit</button>
       </form>

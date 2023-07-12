@@ -1,8 +1,8 @@
 import "./App.css";
 import { useReducer } from "react";
 import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { Home } from "./Pages/Home";
-import { AddItem } from "./Pages/AddItem";
+import { Home } from "./Pages/Home.js";
+import { AddItem } from "./Pages/AddItem.js";
 import { EditItem } from "./Pages/EditItem";
 
 const initualState = {
