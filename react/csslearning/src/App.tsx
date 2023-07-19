@@ -1,25 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Temp1 from "./components/Temp1";
+import Temp2 from "./components/Temp2";
+import Bootstrap from "./components/Bootstrap";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/*<Temp1>This is my first css styler</Temp1>
+      <Temp2>to test the css you should give it a child</Temp2>
+       <button className="btn btn-secondary">click me</button>
+      <button className="btn btn-danger">click me</button> */}
+      <Bootstrap />
+    </>
   );
 }
 
