@@ -4,4 +4,5 @@ go to a directory: cd /location
 if bug : npm cache clean --force
 install the interface of the server: npm install react-router-dom
 
-typescript: npx create-react-app functioninsidefunction --template typescript
+
+typescript: npx create-react-app routertutorial --template typescript
