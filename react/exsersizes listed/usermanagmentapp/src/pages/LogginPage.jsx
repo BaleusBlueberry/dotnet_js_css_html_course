@@ -1,55 +1,102 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const renderForm = (
-  <div className="container">
-    <div className="shadow-lg p-3 bg-white rounded">
-      <h2>Login Page</h2>
+function LogginPage() {
+  // React States
+  const [errorMessages, setErrorMessages] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // User Login info
+  const database = [
+    {
+      username: "user1@mail.com",
+      password: "pass1",
+    },
+    {
+      username: "user2@mail.com",
+      password: "pass2",
+    },
+  ];
+
+  const errors = {
+    uname: "invalid username",
+    pass: "invalid password",
+  };
+
+  const handleSubmit = (event) => {
+    //Prevent page reload
+    event.preventDefault();
+    // console.log(Document.forms[0]);
+    var { uname, pass } = document.forms[0];
+    console.log(uname, pass);
+
+    // Find user login info
+    const userData = database.find((user) => user.username === uname.value);
+
+    // Compare user info
+    if (userData) {
+      if (userData.password !== pass.value) {
+        // Invalid password
+        setErrorMessages({ name: "pass", message: errors.pass });
+      } else {
+        setIsSubmitted(true);
+      }
+    } else {
+      // Username not found
+      setErrorMessages({ name: "uname", message: errors.uname });
+    }
+  };
+
+  // Generate JSX code for error message
+  const renderErrorMessage = (name) =>
+    name === errorMessages.name && (
+      <div className="error">{errorMessages.message}</div>
+    );
+
+  // JSX code for login form
+  const renderForm = (
+    <div className="form">
       <form onSubmit={handleSubmit}>
-        <div className="mb-3 inputcontainer">
-          <label htmlFor="emailInput" className="form-label">
+        <div className="mb-3">
+          <label className="form-label" htmlFor="inputEmail">
             User Email:
           </label>
           <input
+            defaultValue={database[0].username}
             type="email"
-            name="emailInput"
+            name="uname"
+            id="inputEmail"
             className="form-control"
             required
-          ></input>
-          {renderErrorMessage("emailInput")}
+          />
+          {renderErrorMessage("uname")}
         </div>
         <div className="mb-3">
           <label htmlFor="inputPassword" className="form-label">
-            Password:
+            Password{" "}
           </label>
           <input
+            defaultValue={database[0].password}
             type="password"
+            name="pass"
             id="inputPassword"
             className="form-control"
-          ></input>
+            required
+          />
           {renderErrorMessage("pass")}
         </div>
-        <button className="btn btn-primary" type="submit">
-          Log in
-        </button>
+        <div>
+          <input type="submit" className="btn btn-primary" />
+        </div>
       </form>
     </div>
-  </div>
-);
-function handleSubmit(e) {
-  e.preventDefault();
-  console.log("forum was submitted");
-}
-function renderErrorMessage(name) {
-  console.log(name, "render error triger");
-}
-// const renderErrorMessage = (name) =>
-//   name === errorMassages.name && (
-//     <div className="error">{errorMassages.message}</div>
-//   );
+  );
 
-function LogginPage() {
-  const [errorMassages, setErrorMassages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState({});
-  return renderForm;
+  return (
+    <div className="container">
+      <div className="title">Sign In</div>
+      {isSubmitted ? <div>User is successfully logged in</div> : renderForm}
+    </div>
+  );
 }
+
 export default LogginPage;
