@@ -14,11 +14,16 @@ function LogginPage() {
     if (user) {
       console.log("user found, good login");
       localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userName", `${user.firstName} ${user.lastName}`);
+
       navigate("/users");
     } else {
       console.log("user not found");
       alert("the username of password are wrong");
       localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userName");
+
+      alert("the Email of password are wrong");
     }
   }
 

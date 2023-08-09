@@ -26,7 +26,7 @@ function EditUser() {
     } else {
       console.log("in add user mode");
     }
-  }, []);
+  }, [id]);
 
   const handleSave = () => {
     let currentUserData = JSON.parse(localStorage.getItem("userData"));

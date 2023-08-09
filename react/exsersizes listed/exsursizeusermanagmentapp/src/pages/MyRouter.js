@@ -3,10 +3,13 @@ import LogginPage from "./LogginPage";
 import UsersPage from "./UsersPage";
 import Protected from "./Protected";
 import EditUser from "./EditUser";
+import FooterBar from "./FooterBar";
+import HeaderBar from "./HeaderBar";
 
 function MyRouter() {
   return (
     <BrowserRouter>
+      <HeaderBar />
       <Routes>
         <Route path="/" element={<LogginPage />} />
         <Route
@@ -35,6 +38,7 @@ function MyRouter() {
           }
         ></Route>
       </Routes>
+      <FooterBar />
     </BrowserRouter>
   );
 }
