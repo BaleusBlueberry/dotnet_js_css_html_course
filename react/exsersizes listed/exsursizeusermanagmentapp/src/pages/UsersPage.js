@@ -40,10 +40,9 @@ function UsersPage() {
             >
               Edit
             </button>
-            <button
-              className="btn btn-warning"
-              onClick={() => handleDelete(i)}
-            ></button>
+            <button className="btn btn-warning" onClick={() => handleDelete(i)}>
+              delete
+            </button>
           </li>
         ))}
       </ul>
