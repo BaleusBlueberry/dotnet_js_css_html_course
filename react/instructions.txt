@@ -6,3 +6,6 @@ install the interface of the server: npm install react-router-dom
 
 
 typescript: npx create-react-app routertutorial --template typescript
+
+bootstrap: npm install bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
