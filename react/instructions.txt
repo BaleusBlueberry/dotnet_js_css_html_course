@@ -6,7 +6,7 @@ install the interface of the server: npm install react-router-dom
 
 fix a problem that can't start with npm start : npm install react-scripts --save-dev
 
-typescript: npx create-react-app routertutorial --template typescript
+typescript: npm create-react-app routertutorial --template typescript
 
 bootstrap: npm install bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
