@@ -32,8 +32,8 @@ function LoginPage() {
         </label>
       </div>
       <div className="form-row pb-3">
-        <button className="btn btn-outline-danger col-md-6">Cancel</button>
-        <button className="btn btn-outline-info col-md-6">
+        <button className="col btn btn-outline-danger col-md-6">Cancel</button>
+        <button className="col btn btn-outline-info col-md-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
