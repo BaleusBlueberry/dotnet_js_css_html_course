@@ -4,36 +4,57 @@ import { useNavigate, useParams } from "react-router-dom";
 function RegisterPage() {
   const navigated = useNavigate();
   const { id } = useParams();
-  const [user, setUser] = useState({ id: 0 });
+  const [user, setUser] = useState({
+    id: 0,
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    password: "",
+    imageUrl: "",
+    imageAlt: "",
+    state: "",
+    couontry: "",
+    city: "",
+    street: "",
+    houseNumber: "",
+    zipCode: "",
+    business: "",
+  });
   return (
     <div className="container">
       <h1 className="text-center pb-3">Register</h1>
-
       <div className="form-group">
-        <div className="form-floating mb-3">
-          <input
-            type="email"
-            className="form-control"
-            id="floatInput"
-            placeholder="Enter your email"
-            value="{email}"
-            // onChange={(e) => setemail(e.target.value)}
-          />
-          <label className="floatingInput">Email</label>
+        {/*first name and lastname group */}
+        <div className="row mb-3">
+          <div className="form-floating col">
+            <input
+              type="text"
+              className="form-control"
+              id="floatInput"
+              placeholder="Firstname"
+              value={user.first}
+              onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+            />
+            <label className="floatingInput">Firstname</label>
+          </div>
+          <div className="form-floating col">
+            <input
+              type="text"
+              className="form-control"
+              id="floatInput"
+              placeholder="MiddleName"
+              value={user.middleName}
+              onChange={(e) => setUser({ ...user, middleName: e.target.value })}
+            ></input>
+            <label htmlFor="inputPassword" className="form-label">
+              MiddleName
+            </label>
+          </div>
         </div>
-        <div className="form-floating mb-5">
-          <input
-            type="password"
-            className="form-control"
-            id="floatInput"
-            placeholder="Password"
-            // value={password}
-            // onChange={(e) => setpassword(e.target.value)}
-          ></input>
-          <label htmlFor="inputPassword" className="form-label">
-            Password
-          </label>
-        </div>
+        {/*end of first and lastname */}
+
         <div className="form-row pb-3">
           <button className="btn btn-outline-danger col-md-6">Cancel</button>
           <button className="btn btn-outline-info col-md-6">
