@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../Resources/logo.svg";
 
 function Header() {
-  const nav = useNavigate();
+  // const nav = useNavigate();
 
   return (
     <nav className="navbar navbar-expand-lg">
