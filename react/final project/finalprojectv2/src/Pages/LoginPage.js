@@ -1,46 +1,60 @@
 import { useState } from "react";
+import CreateComp from "../Resources/CreateComp";
+import Container from "react-bootstrap/esm/Container";
+import Button from "react-bootstrap/esm/Button";
+import axios from "axios";
+
+const projectId = "31bcacd2-079a-4ec0-b1e3-74aec2cb7423";
+const myApiLink =
+  "https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/login/";
 
 function LoginPage() {
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+  const [registerData, setRegisterData] = useState({
+    Email: "",
+    Password: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log("clicked submitted");
+    axios
+      .post(myApiLink + projectId, registerData)
+      .then((response) => {
+        localStorage.setItem("USER_TOKEN", response.config.token);
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  function callCreateComponent(name, label, type = "text") {
+    return (
+      <CreateComp
+        name={name}
+        label={label}
+        value={registerData[name]}
+        type={type}
+        onChange={(value) =>
+          setRegisterData({ ...registerData, [name]: value })
+        }
+      />
+    );
+  }
 
   return (
-    <div className="container">
-      <h1 className="text-center pb-3">Login</h1>
-      <div className="form-floating mb-3">
-        <input
-          type="email"
-          className="form-control"
-          id="floatInput"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setemail(e.target.value)}
-        />
-        <label className="floatingInput">Email</label>
-      </div>
-      <div className="form-floating mb-5">
-        <input
-          type="password"
-          className="form-control"
-          id="floatInput"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setpassword(e.target.value)}
-        ></input>
-        <label htmlFor="inputPassword" className="form-label">
-          Password
-        </label>
-      </div>
-      <div className="form-row pb-3">
-        <button className="col btn btn-outline-danger col-md-6">Cancel</button>
-        <button className="col btn btn-outline-info col-md-6">
-          <i class="bi bi-eraser-fill"></i>
-        </button>
-      </div>
-      <div>
-        <button className="btn btn-info col-md-12">Submit</button>
-      </div>
-    </div>
+    <Container>
+      <form>
+        {callCreateComponent("Email", "Email", "email")}
+        {callCreateComponent("Password", "Password", "password")}
+        <div className="text-center">
+          <Button variant="success" type="submit" onClick={handleSubmit}>
+            Log in
+          </Button>
+        </div>
+      </form>
+    </Container>
   );
 }
 

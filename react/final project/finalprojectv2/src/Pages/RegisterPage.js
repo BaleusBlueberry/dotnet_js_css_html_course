@@ -1,89 +1,106 @@
 import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
-import Form from "react-bootstrap/Form";
 import CreateComp from "../Resources/CreateComp";
+import axios from "axios";
+
+const projectId = "31bcacd2-079a-4ec0-b1e3-74aec2cb7423";
+const myApiLink =
+  "https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/login/";
 
 function RegisterPage() {
-  const [registerData, setRegisterData] = useState({
-    id: Math.floor(Math.random() * 10000000000000),
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    isBusines: false,
-  });
+  const restRegister = {
+    Role: "",
+    ID: "",
+    ProjectID: projectId,
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Password: "",
+    IsBusines: false,
+    CompanyName: "",
+    Phone: "",
+    Country: "",
+    City: "",
+    HouseNumber: "",
+    State: "",
+    ZipCode: "",
+  };
+  const [registerData, setRegisterData] = useState(restRegister);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(
+        "https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/user/",
+        registerData
+      )
+      .then((response) => {
+        setRegisterData(restRegister);
+      })
+      .catch((error) => {
+        console.error("Error adding user:", error);
+      });
+  };
+
+  function callCreateComponent(name, label, type = "text") {
+    return (
+      <CreateComp
+        name={name}
+        label={label}
+        value={registerData[name]}
+        type={type}
+        onChange={(value) =>
+          setRegisterData({ ...registerData, [name]: value })
+        }
+      />
+    );
+  }
   return (
     <Container>
-      <FloatingLabel controlId="firstName" label="firstName">
-        <Form.Control
-          type="text"
-          placeholder="Password"
-          name="firstName"
-          value={registerData.firstName}
-          onChange={(e) =>
-            setRegisterData({ ...registerData, firstName: e.target.value })
-          }
-        />
-      </FloatingLabel>
-      <FloatingLabel controlId="lastName" label="lastName">
-        <Form.Control
-          type="text"
-          placeholder="lastName"
-          name="lastName"
-          value={registerData.lastName}
-          onChange={(e) =>
-            setRegisterData({ ...registerData, lastName: e.target.value })
-          }
-        />
-      </FloatingLabel>
-      <FloatingLabel controlId="email" label="Email address" className="mb-3">
-        <Form.Control
-          type="email"
-          placeholder="name@example.com"
-          name="email"
-          value={registerData.email}
-          onChange={(e) =>
-            setRegisterData({ ...registerData, email: e.target.value })
-          }
-        />
-      </FloatingLabel>
-      <FloatingLabel controlId="Password" label="Password">
-        <Form.Control
-          type="password"
-          placeholder="Password"
-          name="password"
-          value={registerData.password}
-          onChange={(e) =>
-            setRegisterData({ ...registerData, password: e.target.value })
-          }
-        />
-      </FloatingLabel>
-      <Dropdown>
-        <Dropdown.Toggle variant="success" id="isBusnies">
-          Is it a Business?
-        </Dropdown.Toggle>
+      <form onSubmit={handleSubmit}>
+        {callCreateComponent("FirstName", "First Name")}
+        {callCreateComponent("LastName", "Last Name")}
+        {callCreateComponent("Email", "Email", "email")}
+        {callCreateComponent("Password", "Password", "password")}
+        <Dropdown>
+          <Dropdown.Toggle variant="success" id="IsBusnies" className="mb-3">
+            {registerData.IsBusines ? "Is a Busines" : "Not a Busines"}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item
+              onClick={() =>
+                setRegisterData({ ...registerData, IsBusines: false })
+              }
+            >
+              Not a Busines
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() =>
+                setRegisterData({ ...registerData, IsBusines: true })
+              }
+            >
+              Is a Busines
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        {registerData.IsBusines ? (
+          <>
+            {callCreateComponent("CompanyName", "Company Name")}
+            {callCreateComponent("Phone", "Phone Number", "phone")}
+            {callCreateComponent("Country", "Country")}
+            {callCreateComponent("City", "City")}
+            {callCreateComponent("HouseNumber", "House Number")}
+            {callCreateComponent("State", "State")}
+            {callCreateComponent("ZipCode", "ZipCode")}
+          </>
+        ) : null}
 
-        <Dropdown.Menu>
-          <Dropdown.Item
-            onClick={() =>
-              setRegisterData({ ...registerData, isBusines: false })
-            }
-          >
-            Not a Busines
-          </Dropdown.Item>
-          <Dropdown.Item
-            onClick={() =>
-              setRegisterData({ ...registerData, isBusines: true })
-            }
-          >
-            Is a Busines
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-      <CreateComp name="testname" type="test type" />
+        <button variant="success" type="submit">
+          Register
+        </button>
+      </form>
     </Container>
   );
 }
