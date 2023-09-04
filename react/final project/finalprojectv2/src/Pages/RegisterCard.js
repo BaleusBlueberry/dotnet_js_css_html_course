@@ -8,11 +8,14 @@ const projectId = "31bcacd2-079a-4ec0-b1e3-74aec2cb7423";
 const myApiLink =
   "https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/login/";
 
-function CreateCard() {
+function RegisterCard() {
   const [submitCard, setSubmitCard] = useState({
-    CardCategory: "",
+    CardID: "",
     Title: "",
-    descreption: "",
+    Descreption: "",
+    Location: "",
+    Picture: "",
+    PictureDescription: "",
   });
 
   function callCreateComponent(name, label, type = "text") {
@@ -66,4 +69,4 @@ function CreateCard() {
   );
 }
 
-export default CreateCard;
+export default RegisterCard;
