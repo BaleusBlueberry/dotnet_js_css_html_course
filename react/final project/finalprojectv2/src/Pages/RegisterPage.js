@@ -11,7 +11,7 @@ const myApiLink =
 function RegisterPage() {
   const restRegister = {
     Role: "",
-    ID: "",
+    ID: {},
     ProjectID: projectId,
     FirstName: "",
     LastName: "",
@@ -33,15 +33,11 @@ function RegisterPage() {
 
     axios
       .post(
-        "https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/user/",
+        "https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/user1/",
         registerData
       )
-      .then((response) => {
-        setRegisterData(restRegister);
-      })
-      .catch((error) => {
-        console.error("Error adding user:", error);
-      });
+      .then((response) => setRegisterData(restRegister))
+      .catch((error) => console.error("Error adding user:", error));
   };
 
   function callCreateComponent(name, label, type = "text") {
@@ -64,6 +60,11 @@ function RegisterPage() {
         {callCreateComponent("LastName", "Last Name")}
         {callCreateComponent("Email", "Email", "email")}
         {callCreateComponent("Password", "Password", "password")}
+        <p>
+          Password must have: 1 uppercase letter, 1 lowercase letter, 4 or more
+          digits, 1 special character (!@%$#^&-_), and be at least 8 characters
+          long.
+        </p>
         <Dropdown>
           <Dropdown.Toggle variant="success" id="IsBusnies" className="mb-3">
             {registerData.IsBusines ? "Is a Busines" : "Not a Busines"}
@@ -85,7 +86,7 @@ function RegisterPage() {
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-        {registerData.IsBusines ? (
+        {registerData.IsBusines && (
           <>
             {callCreateComponent("CompanyName", "Company Name")}
             {callCreateComponent("Phone", "Phone Number", "phone")}
@@ -93,9 +94,9 @@ function RegisterPage() {
             {callCreateComponent("City", "City")}
             {callCreateComponent("HouseNumber", "House Number")}
             {callCreateComponent("State", "State")}
-            {callCreateComponent("ZipCode", "ZipCode")}
+            {callCreateComponent("ZipCode", "ZipCode", "number")}
           </>
-        ) : null}
+        )}
 
         <button variant="success" type="submit">
           Register

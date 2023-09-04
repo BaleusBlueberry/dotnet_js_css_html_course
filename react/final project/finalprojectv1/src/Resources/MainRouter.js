@@ -4,6 +4,7 @@ import Header from "../BuildInPages/Header";
 import Footer from "../BuildInPages/Footer";
 import RegisterPage from "../Pages/RegisterPage";
 import LoginPage from "../Pages/LoginPage";
+import CreateCard from "../Pages/CreateCard";
 
 function MainRouter() {
   return (
@@ -14,6 +15,7 @@ function MainRouter() {
         <Route path="*" element={<h1>This page Dose not exists</h1>}></Route>
         <Route path="/Register" element={<RegisterPage />} />
         <Route path="/Login" element={<LoginPage />} />
+        <Route path="/CreateCard" element={<CreateCard />} />
       </Routes>
       <Footer />
     </BrowserRouter>

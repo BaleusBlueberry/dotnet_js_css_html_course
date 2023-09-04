@@ -15,6 +15,9 @@ function Header() {
             height={100}
           />
         </Link>
+        <Link className="navbar-brand" to="/CreateCard">
+          Create Card
+        </Link>
         <Link className="navbar-brand" to="/Register">
           Register
         </Link>

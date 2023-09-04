@@ -21,7 +21,8 @@ function LoginPage() {
     axios
       .post(myApiLink + projectId, registerData)
       .then((response) => {
-        localStorage.setItem("USER_TOKEN", response.config.token);
+        localStorage.setItem("USER_TOKEN", response.data.token);
+        console.log(response.data.token);
         console.log(response);
       })
       .catch((err) => {
