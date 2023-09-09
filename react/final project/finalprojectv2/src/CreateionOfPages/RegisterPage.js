@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
 import CreateComp from "../ResourcesProject/CreateComp";
-import { getUserData, registerNewUser } from "../OnlineServices/api";
+import { registerNewUser } from "../OnlineServices/api";
 import Alert from "react-bootstrap/Alert";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
+import { ThemeContext } from "../ResourcesProject/contexts/ThemeProvider";
 
 function RegisterPage() {
   const restRegister = {
@@ -29,6 +30,7 @@ function RegisterPage() {
   const [registerData, setRegisterData] = useState(restRegister);
   const [error, seterror] = useState(null);
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,19 +60,24 @@ function RegisterPage() {
     <Container className="d-flex justify-content-center mt-5 mb-6">
       {error && <Alert variant="danger">{error}</Alert>}
       <form onSubmit={handleSubmit}>
+        <h1
+          className={`text-center text-${theme === "dark" ? "light" : "dark"}`}
+        >
+          Register Page
+        </h1>
         <Row>
           <Col>{callCreateComponent("Name", "First Name")}</Col>
           <Col>{callCreateComponent("LastName", "Last Name")}</Col>
         </Row>
         {callCreateComponent("Email", "Email", "email")}
         {callCreateComponent("Password", "Password", "password")}
-        <p>
+        <p className={`text-${theme === "dark" ? "light" : "dark"}`}>
           Password must have: 1 uppercase letter, 1 lowercase letter, 4 or more
           digits, 1 special character (!@%$#^&-_), and be at least 8 characters
           long.
         </p>
         <Dropdown>
-          <Dropdown.Toggle variant="info" id="IsBusnies" className="mb-3">
+          <Dropdown.Toggle variant="success" id="IsBusnies" className="mb-3">
             {registerData.IsBusines ? "Is a Busines" : "Not a Busines"}
           </Dropdown.Toggle>
           <Dropdown.Menu>

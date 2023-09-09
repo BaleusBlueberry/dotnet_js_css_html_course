@@ -1,10 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CreateComp from "../ResourcesProject/CreateComp";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import Alert from "react-bootstrap/Alert";
 import { loginUser } from "../OnlineServices/api";
 import { ThemeContext } from "../ResourcesProject/contexts/ThemeProvider";
+import { UserContext } from "../ResourcesProject/contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [registerData, setRegisterData] = useState({
@@ -12,10 +14,9 @@ function LoginPage() {
     Password: "",
   });
   const [error, seterror] = useState(null);
-  const theme = useContext(ThemeContext);
-
-  const textColorClass = theme === "dark" ? "text-light" : "text-dark";
-  const bgClass = theme === "dark" ? "bg-dark" : "bg-light";
+  const { theme } = useContext(ThemeContext);
+  const { setToken } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,8 +25,8 @@ function LoginPage() {
         registerData.Email,
         registerData.Password
       );
-      // set a token in useContext
-      // navigate to cards page
+      setToken(response.token);
+      navigate("/");
     } catch (error) {
       seterror("Incorrect Login, please try again");
     }
@@ -47,18 +48,29 @@ function LoginPage() {
   }
 
   return (
-    <Container className={`justify-content-center mt-5 mb-6 ${bgClass}`}>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <form onSubmit={handleSubmit}>
-        {callCreateComponent("Email", "Email", "email")}
-        {callCreateComponent("Password", "Password", "password", "")}
-        <div className={`text-center ${textColorClass}`}>
-          <Button variant="success" type="submit">
-            Log in
-          </Button>
-        </div>
-      </form>
-    </Container>
+    <div className={`container-fluid bg-${theme}`}>
+      <Container className={`justify-content-center mt-5 mb-6`}>
+        {error && <Alert variant="danger">{error}</Alert>}
+
+        <form onSubmit={handleSubmit}>
+          <h1
+            className={`text-center text-${
+              theme === "dark" ? "light" : "dark"
+            }`}
+          >
+            Login Page
+          </h1>
+
+          {callCreateComponent("Email", "Email", "email")}
+          {callCreateComponent("Password", "Password", "password", "")}
+          <div className="text-center">
+            <Button variant="success" type="submit">
+              Log in
+            </Button>
+          </div>
+        </form>
+      </Container>
+    </div>
   );
 }
 

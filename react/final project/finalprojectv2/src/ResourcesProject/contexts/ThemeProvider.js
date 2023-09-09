@@ -18,6 +18,8 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
+    document.body.style.backgroundColor =
+      theme === "dark" ? "#212529" : "#f8f9fa";
   }, [theme]);
 
   return (

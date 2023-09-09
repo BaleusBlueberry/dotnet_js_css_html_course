@@ -15,8 +15,8 @@ function Header() {
   };
 
   return (
-    <Navbar expand="lg" bg={theme} variant={theme}>
-      <Container>
+    <Navbar collapseOnSelect expand="lg" bg={theme} variant={theme}>
+      <Container fluid>
         <Navbar.Brand href="/">
           <img
             src={logo}
