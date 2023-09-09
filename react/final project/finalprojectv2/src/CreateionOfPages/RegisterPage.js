@@ -1,19 +1,19 @@
 import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
-import CreateComp from "../Resources/CreateComp";
-import axios from "axios";
-
-const projectId = "31bcacd2-079a-4ec0-b1e3-74aec2cb7423";
-const myApiLink =
-  "https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/login/";
+import CreateComp from "../ResourcesProject/CreateComp";
+import { getUserData, registerNewUser } from "../OnlineServices/api";
+import Alert from "react-bootstrap/Alert";
+import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/esm/Button";
+import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/esm/Row";
 
 function RegisterPage() {
   const restRegister = {
-    Role: "",
-    ID: {},
-    ProjectID: projectId,
-    FirstName: "",
+    Role: "admin",
+    ID: Math.floor(Math.random() * 100000000000),
+    Name: "",
     LastName: "",
     Email: "",
     Password: "",
@@ -27,17 +27,18 @@ function RegisterPage() {
     ZipCode: "",
   };
   const [registerData, setRegisterData] = useState(restRegister);
+  const [error, seterror] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    axios
-      .post(
-        "https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/user1/",
-        registerData
-      )
-      .then((response) => setRegisterData(restRegister))
-      .catch((error) => console.error("Error adding user:", error));
+    try {
+      await registerNewUser(registerData);
+      setRegisterData(restRegister);
+      seterror(null);
+    } catch (error) {
+      seterror("Failed to register. Please try again.");
+    }
   };
 
   function callCreateComponent(name, label, type = "text") {
@@ -54,10 +55,13 @@ function RegisterPage() {
     );
   }
   return (
-    <Container>
+    <Container className="d-flex justify-content-center mt-5 mb-6">
+      {error && <Alert variant="danger">{error}</Alert>}
       <form onSubmit={handleSubmit}>
-        {callCreateComponent("FirstName", "First Name")}
-        {callCreateComponent("LastName", "Last Name")}
+        <Row>
+          <Col>{callCreateComponent("Name", "First Name")}</Col>
+          <Col>{callCreateComponent("LastName", "Last Name")}</Col>
+        </Row>
         {callCreateComponent("Email", "Email", "email")}
         {callCreateComponent("Password", "Password", "password")}
         <p>
@@ -66,7 +70,7 @@ function RegisterPage() {
           long.
         </p>
         <Dropdown>
-          <Dropdown.Toggle variant="success" id="IsBusnies" className="mb-3">
+          <Dropdown.Toggle variant="info" id="IsBusnies" className="mb-3">
             {registerData.IsBusines ? "Is a Busines" : "Not a Busines"}
           </Dropdown.Toggle>
           <Dropdown.Menu>
@@ -90,17 +94,20 @@ function RegisterPage() {
           <>
             {callCreateComponent("CompanyName", "Company Name")}
             {callCreateComponent("Phone", "Phone Number", "phone")}
-            {callCreateComponent("Country", "Country")}
-            {callCreateComponent("City", "City")}
-            {callCreateComponent("HouseNumber", "House Number")}
-            {callCreateComponent("State", "State")}
-            {callCreateComponent("ZipCode", "ZipCode", "number")}
+            <Row>
+              <Col>{callCreateComponent("Country", "Country")}</Col>
+              <Col>{callCreateComponent("City", "City")}</Col>
+            </Row>
+            <Row>
+              <Col>{callCreateComponent("HouseNumber", "House Number")}</Col>
+              <Col>{callCreateComponent("State", "State")}</Col>
+              <Col>{callCreateComponent("ZipCode", "ZipCode", "number")}</Col>
+            </Row>
           </>
         )}
-
-        <button variant="success" type="submit">
+        <Button variant="success" type="submit">
           Register
-        </button>
+        </Button>
       </form>
     </Container>
   );

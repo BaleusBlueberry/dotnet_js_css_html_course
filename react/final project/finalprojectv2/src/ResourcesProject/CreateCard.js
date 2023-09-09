@@ -7,7 +7,7 @@ function CreateCard(props) {
   console.log(props);
   console.log(props.info.CardID);
   return (
-    <div className="d-flex justify-content-around">
+    <div className="d-flex justify-content-around pb-5">
       <Card style={{ width: "18rem" }}>
         <Card.Img
           variant="top"

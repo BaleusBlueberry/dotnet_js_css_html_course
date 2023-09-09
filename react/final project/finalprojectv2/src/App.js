@@ -1,4 +1,4 @@
-import MainRouter from "./Resources/MainRouter";
+import MainRouter from "./ResourcesProject/MainRouter";
 
 function App() {
   return <MainRouter />;

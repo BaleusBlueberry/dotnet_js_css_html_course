@@ -20,6 +20,20 @@ function CreateComp(props) {
     ["State", ".+"],
     ["ZipCode", "[0-9]{1,}"],
   ]);
+
+  const controlProps = {
+    required: true,
+    type: props.type,
+    placeholder: props.label,
+    name: props.name,
+    value: props.value,
+    onChange: (e) => props.onChange(e.currentTarget.value),
+  };
+
+  if (props.req === "true") {
+    controlProps.pattern = validation.get(props.name);
+  }
+
   return (
     <>
       <FloatingLabel
@@ -27,15 +41,7 @@ function CreateComp(props) {
         label={props.label}
         className="mb-3"
       >
-        <Form.Control
-          required
-          type={props.type}
-          placeholder={props.label}
-          name={props.name}
-          value={props.value}
-          onChange={(e) => props.onChange(e.currentTarget.value)}
-          pattern={validation.get(props.name)}
-        />
+        <Form.Control {...controlProps} />
       </FloatingLabel>
     </>
   );
