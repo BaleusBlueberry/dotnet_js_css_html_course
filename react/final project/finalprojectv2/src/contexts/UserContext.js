@@ -1,7 +1,7 @@
 import jwtDecode from "jwt-decode";
 import { createContext, useState, useEffect } from "react";
-import { projectId } from "../../OnlineServices/consts";
 import Modal from "react-bootstrap/Modal";
+import { projectId } from "../OnlineServices/consts";
 
 export const UserContext = createContext();
 

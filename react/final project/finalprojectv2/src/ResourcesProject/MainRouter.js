@@ -5,20 +5,10 @@ import Footer from "../BuildInPages/Footer";
 import RegisterPage from "../CreateionOfPages/RegisterPage";
 import LoginPage from "../BuildInPages/LoginPage";
 import RegisterCard from "../CreateionOfPages/RegisterCard";
-import { useContext } from "react";
-import { ThemeContext, ThemeProvider } from "./contexts/ThemeProvider";
-import { AuthProvider } from "./contexts/UserContext";
+import { AuthProvider } from "../contexts/UserContext";
+import { ThemeProvider } from "../contexts/ThemeProvider";
 
 function MainRouter() {
-  const { theme } = useContext(ThemeContext);
-
-  const themeClass =
-    theme === "light" ? "bg-light text-dark" : "bg-dark text-white";
-
-  // useEffect(() => {
-  //   document.body.className = themeClass;
-  // }, [themeClass]);
-
   return (
     <AuthProvider>
       <ThemeProvider>

@@ -5,9 +5,23 @@ const api = axios.create({
   baseURL: myApiLink,
 });
 
+export const loginUser = async (email, password) => {
+  const response = await api
+    .post(`/login/${projectId}`, {
+      Email: email,
+      Password: password,
+    })
+    .then(() => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const registerNewUser = async (data) => {
-  try {
-    const response = await api.post("/user/", {
+  const response = await api
+    .post("/user/", {
       ID: data.ID,
       ProjectID: projectId,
       Email: data.Email,
@@ -15,6 +29,7 @@ export const registerNewUser = async (data) => {
       Role: "Guest",
       Name: data.Name,
       IsBusines: data.IsBusines,
+      // eslint-disable-next-line eqeqeq
       ...(data.IsBusiness == "true"
         ? {
             CompanyName: data.CompanyName,
@@ -26,28 +41,22 @@ export const registerNewUser = async (data) => {
             ZipCode: data.ZipCode,
           }
         : {}),
+    })
+    .then(() => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw error;
     });
-    return response.data;
-  } catch (error) {}
-};
-
-export const loginUser = async (email, password) => {
-  try {
-    const response = await api.post(`/login/${projectId}`, {
-      Email: email,
-      Password: password,
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const getUserData = async (email) => {
-  try {
-    const response = await api.get(`/user/object/${projectId}/${email}`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api
+    .get(`/user/object/${projectId}/${email}`)
+    .then(() => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
 };

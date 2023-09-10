@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import CreateComp from "../ResourcesProject/CreateComp";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import Alert from "react-bootstrap/Alert";
 import { loginUser } from "../OnlineServices/api";
-import { ThemeContext } from "../ResourcesProject/contexts/ThemeProvider";
-import { UserContext } from "../ResourcesProject/contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import { ThemeContext } from "../contexts/ThemeProvider";
+import { UserContext } from "../contexts/UserContext";
 
 function LoginPage() {
   const [registerData, setRegisterData] = useState({
@@ -64,7 +64,7 @@ function LoginPage() {
           {callCreateComponent("Email", "Email", "email")}
           {callCreateComponent("Password", "Password", "password", "")}
           <div className="text-center">
-            <Button variant="success" type="submit">
+            <Button variant="success" type="submit" size="lg">
               Log in
             </Button>
           </div>

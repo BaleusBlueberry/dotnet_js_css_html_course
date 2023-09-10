@@ -1,9 +1,13 @@
 // import Dropdown from "react-bootstrap/Dropdown";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 function CreateComp(props) {
   /// takes name, label , value onchange and *type
+  const { theme } = useContext(ThemeContext);
+
   const validation = new Map([
     ["FirstName", "^[A-Za-z]{1,}$"],
     ["LastName", "^[A-Za-z]{1,}$"],
@@ -39,9 +43,10 @@ function CreateComp(props) {
       <FloatingLabel
         controlId={props.name}
         label={props.label}
-        className="mb-3"
+        className="mb-3 text-secondary"
+        data-bs-theme={theme}
       >
-        <Form.Control {...controlProps} />
+        <Form.Control data-bs-theme={theme} {...controlProps} />
       </FloatingLabel>
     </>
   );

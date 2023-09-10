@@ -5,7 +5,9 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { ThemeContext } from "../ResourcesProject/contexts/ThemeProvider";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/esm/Button";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -15,14 +17,15 @@ function Header() {
   };
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg={theme} variant={theme}>
+    <Navbar data-bs-theme={theme} collapseOnSelect expand="sm">
       <Container fluid>
         <Navbar.Brand href="/">
           <img
             src={logo}
             alt="Main Krampus Site Loggo"
-            width={100}
-            height={100}
+            width={70}
+            height={70}
+            className="d-inline-block align-top"
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -33,10 +36,15 @@ function Header() {
             <Nav.Link href="/CreateCard">Create Card</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="#Edit">Edit Mode</Nav.Link>
-            <Nav.Link eventKey={2} href="#View">
-              View Mode
-            </Nav.Link>
+            <Form className="d-flex" onSubmit={() => {}}>
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
             <Nav.Link onClick={changeTheme}>
               {theme === "dark" ? (
                 <Moon className="ms-1" />
