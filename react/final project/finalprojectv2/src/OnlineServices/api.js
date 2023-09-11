@@ -5,22 +5,20 @@ const api = axios.create({
   baseURL: myApiLink,
 });
 
-export const loginUser = async (email, password) => {
-  const response = await api
+export const loginUser = (email, password) => {
+  return api
     .post(`/login/${projectId}`, {
       Email: email,
       Password: password,
     })
-    .then(() => {
-      return response.data;
-    })
+    .then((response) => response.data)
     .catch((error) => {
       throw error;
     });
 };
 
 export const registerNewUser = async (data) => {
-  const response = await api
+  return api
     .post("/user/", {
       ID: data.ID,
       ProjectID: projectId,
@@ -42,21 +40,15 @@ export const registerNewUser = async (data) => {
           }
         : {}),
     })
-    .then(() => {
-      return response.data;
-    })
-    .catch((error) => {
-      throw error;
-    });
+    .then((response) => response.data)
+    .catch((error) => {});
 };
 
 export const getUserData = async (email) => {
-  const response = await api
+  return api
     .get(`/user/object/${projectId}/${email}`)
-    .then(() => {
+    .then((response) => {
       return response.data;
     })
-    .catch((error) => {
-      throw error;
-    });
+    .catch((error) => {});
 };

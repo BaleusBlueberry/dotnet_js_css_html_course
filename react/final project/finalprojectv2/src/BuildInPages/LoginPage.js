@@ -13,9 +13,12 @@ function LoginPage() {
     Email: "",
     Password: "",
   });
-  const [error, seterror] = useState(null);
+  const [showAlert, setShowAlert] = useState(null);
+  const [alertMassage, setAlertMassage] = useState(null);
+  const [alertType, setAlertType] = useState(null);
+
   const { theme } = useContext(ThemeContext);
-  const { setToken } = useContext(UserContext);
+  const { setToken, readbleToken } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -26,9 +29,19 @@ function LoginPage() {
         registerData.Password
       );
       setToken(response.token);
-      navigate("/");
+      setAlertMassage("Logged in successfully");
+      setAlertType("success");
+      setShowAlert(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (error) {
-      seterror("Incorrect Login, please try again");
+      setAlertMassage("Wrong email or password");
+      setAlertType("danger");
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(null);
+      }, 4000);
     }
   };
 
@@ -50,8 +63,11 @@ function LoginPage() {
   return (
     <div className={`container-fluid bg-${theme}`}>
       <Container className={`justify-content-center mt-5 mb-6`}>
-        {error && <Alert variant="danger">{error}</Alert>}
-
+        {showAlert ? (
+          <Alert key={alertType} variant={alertType}>
+            {alertMassage}
+          </Alert>
+        ) : null}
         <form onSubmit={handleSubmit}>
           <h1
             className={`text-center text-${

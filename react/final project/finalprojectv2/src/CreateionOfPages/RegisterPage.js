@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
 import CreateComp from "../ResourcesProject/CreateComp";
-import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
@@ -28,7 +27,6 @@ function RegisterPage() {
     ZipCode: "",
   };
   const [registerData, setRegisterData] = useState(restRegister);
-  const [error, seterror] = useState(null);
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
 
@@ -38,12 +36,9 @@ function RegisterPage() {
     await registerNewUser(registerData)
       .then(() => {
         setRegisterData(restRegister);
-        seterror(null);
         navigate("/Login");
       })
-      .catch((error) => {
-        seterror("Failed to register. Please try again.");
-      });
+      .catch((error) => {});
   };
 
   function callCreateComponent(name, label, type = "text") {
@@ -61,7 +56,6 @@ function RegisterPage() {
   }
   return (
     <Container className="d-flex justify-content-center mt-5 mb-6">
-      {error && <Alert variant="danger">{error}</Alert>}
       <form onSubmit={handleSubmit}>
         <h1
           className={`text-center text-${theme === "dark" ? "light" : "dark"}`}
