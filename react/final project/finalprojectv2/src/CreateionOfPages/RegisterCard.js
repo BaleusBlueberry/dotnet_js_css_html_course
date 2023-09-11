@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CreateComp from "../ResourcesProject/CreateComp";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
