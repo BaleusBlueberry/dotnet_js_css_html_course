@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import { UserContext } from "../contexts/UserContext";
+import React, { useContext, useState } from "react";
 import CreateComp from "../ResourcesProject/CreateComp";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-
-const projectId = "31bcacd2-079a-4ec0-b1e3-74aec2cb7423";
+import { projectId } from "../OnlineServices/consts";
 
 function RegisterCard() {
+  const { readbleToken, token } = useContext(UserContext);
+  console.log(readbleToken);
   const [submitCard, setSubmitCard] = useState({
     CardID: "",
+    // OwnerID: readbleToken.ID,
     Title: "",
     Descreption: "",
     Location: "",
@@ -31,9 +34,7 @@ function RegisterCard() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const bearerToken = localStorage.getItem("USER_TOKEN");
-
-    const config = { headers: { Authorization: `Bearer ${bearerToken}` } };
+    const config = { headers: { Authorization: `Bearer ${token}` } };
     console.log("submitted");
 
     const postData = {

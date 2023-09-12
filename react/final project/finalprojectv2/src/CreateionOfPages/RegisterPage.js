@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Dropdown from "react-bootstrap/Dropdown";
+import Alert from "react-bootstrap/Alert";
 import CreateComp from "../ResourcesProject/CreateComp";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
@@ -8,6 +9,7 @@ import Row from "react-bootstrap/esm/Row";
 import { registerNewUser } from "../OnlineServices/api";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeProvider";
+import { UserContext } from "../contexts/UserContext";
 
 function RegisterPage() {
   const restRegister = {
@@ -27,18 +29,32 @@ function RegisterPage() {
     ZipCode: "",
   };
   const [registerData, setRegisterData] = useState(restRegister);
+  const [showAlert, setShowAlert] = useState(null);
+  const [alertMassage, setAlertMassage] = useState(null);
+  const [alertType, setAlertType] = useState(null);
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
+  const { setToken, readbleToken } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     await registerNewUser(registerData)
-      .then(() => {
-        setRegisterData(restRegister);
-        navigate("/Login");
+      .then((response) => {
+        setToken(response.token);
+        setAlertMassage("Registerd successfully");
+        setAlertType("success");
+        setShowAlert(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+        setAlertMassage("There was an error, please try again");
+        setAlertType("danger");
+        setShowAlert(true);
+      });
   };
 
   function callCreateComponent(name, label, type = "text") {
@@ -57,6 +73,11 @@ function RegisterPage() {
   return (
     <Container className="d-flex justify-content-center mt-5 mb-6">
       <form onSubmit={handleSubmit}>
+        {showAlert ? (
+          <Alert key={alertType} variant={alertType}>
+            {alertMassage}
+          </Alert>
+        ) : null}
         <h1
           className={`text-center text-${theme === "dark" ? "light" : "dark"}`}
         >

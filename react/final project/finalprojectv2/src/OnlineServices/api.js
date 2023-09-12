@@ -40,8 +40,18 @@ export const registerNewUser = async (data) => {
           }
         : {}),
     })
-    .then((response) => response.data)
-    .catch((error) => {});
+    .then(async () => {
+      try {
+        const response = await loginUser(data.Email, data.Password);
+        return response;
+      } catch (error) {
+        throw error;
+      }
+    })
+    .then((response) => response)
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const getUserData = async (email) => {
@@ -50,5 +60,7 @@ export const getUserData = async (email) => {
     .then((response) => {
       return response.data;
     })
-    .catch((error) => {});
+    .catch((error) => {
+      throw error;
+    });
 };

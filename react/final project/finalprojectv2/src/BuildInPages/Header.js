@@ -33,7 +33,7 @@ function Header() {
           <Nav className="me-auto">
             <Nav.Link href="/Register">Register</Nav.Link>
             <Nav.Link href="/Login">LOGIN</Nav.Link>
-            <Nav.Link href="/CreateCard">Create Card</Nav.Link>
+            <Nav.Link href="/RegisterCard">Create Card</Nav.Link>
           </Nav>
           <Nav>
             <Form className="d-flex" onSubmit={() => {}}>

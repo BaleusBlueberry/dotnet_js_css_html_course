@@ -39,9 +39,6 @@ function LoginPage() {
       setAlertMassage("Wrong email or password");
       setAlertType("danger");
       setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(null);
-      }, 4000);
     }
   };
 
