@@ -10,6 +10,7 @@ import { createNewCard } from "../OnlineServices/api";
 function RegisterCard() {
   const { readbleToken, token } = useContext(UserContext);
   const [submitCard, setSubmitCard] = useState({
+    CardCategory: "",
     CardID: Math.floor(Math.random() * 100000000000),
     OwnerID: null,
     Title: "",
@@ -23,7 +24,8 @@ function RegisterCard() {
   });
 
   useEffect(() => {
-    setSubmitCard({ ...submitCard, OwnerID: readbleToken.ID });
+    console.log(readbleToken);
+    setSubmitCard({ ...submitCard, OwnerID: readbleToken?.ID });
   }, [readbleToken]);
 
   function callCreateComponent(name, label, type = "text") {
@@ -40,7 +42,7 @@ function RegisterCard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(submitCard);
     await createNewCard(token, submitCard)
       .then(() => {
         console.log("it worked!");
