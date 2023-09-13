@@ -1,23 +1,30 @@
 import { UserContext } from "../contexts/UserContext";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CreateComp from "../ResourcesProject/CreateComp";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import { projectId } from "../OnlineServices/consts";
+import { createNewCard } from "../OnlineServices/api";
 
 function RegisterCard() {
   const { readbleToken, token } = useContext(UserContext);
-  console.log(readbleToken);
   const [submitCard, setSubmitCard] = useState({
-    CardID: "",
-    // OwnerID: readbleToken.ID,
+    CardID: Math.floor(Math.random() * 100000000000),
+    OwnerID: null,
     Title: "",
     Descreption: "",
     Location: "",
     Picture: "",
     PictureDescription: "",
+    Website: "",
+    Facebook: "",
+    PhoneNumber: "",
   });
+
+  useEffect(() => {
+    setSubmitCard({ ...submitCard, OwnerID: readbleToken.ID });
+  }, [readbleToken]);
 
   function callCreateComponent(name, label, type = "text") {
     return (
@@ -31,27 +38,15 @@ function RegisterCard() {
     );
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const config = { headers: { Authorization: `Bearer ${token}` } };
-    console.log("submitted");
-
-    const postData = {
-      Data: { ...submitCard },
-      Scope: "Public",
-    };
-
-    console.log(config);
-
-    axios
-      .post(
-        `https://gnte7mjwg9.execute-api.us-east-1.amazonaws.com/newdev/item/${projectId}_${submitCard.CardCategory}`,
-        postData, // For adding, we send only Data and Scope
-        config
-      )
-      .catch((error) => {
-        console.error("Error adding user:", error);
+    await createNewCard(token, submitCard)
+      .then(() => {
+        console.log("it worked!");
+      })
+      .catch(() => {
+        console.log("it didnt work");
       });
   };
   return (
@@ -59,7 +54,7 @@ function RegisterCard() {
       <form onSubmit={handleSubmit}>
         {callCreateComponent("CardCategory", "Card Category")}
         {callCreateComponent("Title", "Card Title")}
-        {callCreateComponent("descreption", "Card Descreption")}
+        {callCreateComponent("Descreption", "Card Descreption")}
         <Button variant="success" type="submit">
           Submit
         </Button>

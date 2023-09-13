@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       const decoded = jwtDecode(token);
-      console.log(decoded);
       setReadbleToken(decoded);
       if (decoded.ProjectID !== projectId) {
         setToken(null);

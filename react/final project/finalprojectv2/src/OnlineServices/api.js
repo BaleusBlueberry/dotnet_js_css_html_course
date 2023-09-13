@@ -64,3 +64,18 @@ export const getUserData = async (email) => {
       throw error;
     });
 };
+
+export const createNewCard = async (token, data, CardCategory = "Cards") => {
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+
+  const postData = {
+    Data: { ...data },
+    Scope: "Public",
+  };
+
+  return api
+    .post(`/item/${projectId}_${CardCategory}`, postData, config)
+    .catch((error) => {
+      throw error;
+    });
+};
