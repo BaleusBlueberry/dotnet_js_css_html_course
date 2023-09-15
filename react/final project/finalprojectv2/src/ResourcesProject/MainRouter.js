@@ -22,6 +22,7 @@ function MainRouter() {
             ></Route>
             <Route path="/Register" element={<RegisterPage />} />
             <Route path="/Login" element={<LoginPage />} />
+            <Route path="/RegisterCard/:id" element={<RegisterCard />} />
             <Route path="/RegisterCard" element={<RegisterCard />} />
           </Routes>
           <Footer />

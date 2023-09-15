@@ -27,6 +27,7 @@ function RegisterPage() {
     HouseNumber: "",
     State: "",
     ZipCode: "",
+    Favorates: [],
   };
   const [registerData, setRegisterData] = useState(restRegister);
   const [showAlert, setShowAlert] = useState(null);
@@ -40,8 +41,8 @@ function RegisterPage() {
     e.preventDefault();
 
     await registerNewUser(registerData)
-      .then((response) => {
-        setToken(response.token);
+      .then((_response) => {
+        setToken(_response.token);
         setAlertMassage("Registerd successfully");
         setAlertType("success");
         setShowAlert(true);

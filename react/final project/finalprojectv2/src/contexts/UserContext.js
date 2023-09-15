@@ -1,6 +1,7 @@
 import jwtDecode from "jwt-decode";
 import { createContext, useState, useEffect } from "react";
 import { projectId } from "../OnlineServices/consts";
+import { getItems } from "../OnlineServices/api";
 
 export const UserContext = createContext();
 
@@ -9,11 +10,24 @@ export const AuthProvider = ({ children }) => {
   const [token, setTokens] = useState(tokenFromStorage);
   const [readbleToken, setReadbleToken] = useState(null);
   const [user, setUser] = useState(null);
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
       const decoded = jwtDecode(token);
       setReadbleToken(decoded);
+      getItems(token)
+        .then((response) => {
+          setCards(response);
+          console.log("got items");
+        })
+        .catch((err) => {
+          throw err;
+        })
+        .finally(() => {
+          setLoading(false);
+        });
       if (decoded.ProjectID !== projectId) {
         setToken(null);
       }
@@ -32,7 +46,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ token, setToken, user, readbleToken }}>
+    <UserContext.Provider
+      value={{ token, setToken, user, readbleToken, cards, loading }}
+    >
       {children}
     </UserContext.Provider>
   );

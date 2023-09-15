@@ -3,7 +3,7 @@ import CreateComp from "../ResourcesProject/CreateComp";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import Alert from "react-bootstrap/Alert";
-import { loginUser } from "../OnlineServices/api";
+import { getUserData, loginUser } from "../OnlineServices/api";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { UserContext } from "../contexts/UserContext";
@@ -18,7 +18,7 @@ function LoginPage() {
   const [alertType, setAlertType] = useState(null);
 
   const { theme } = useContext(ThemeContext);
-  const { setToken, readbleToken } = useContext(UserContext);
+  const { setToken } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -43,6 +43,7 @@ function LoginPage() {
   };
 
   function callCreateComponent(name, label, type = "text", req = "true") {
+    window.test = getUserData;
     return (
       <CreateComp
         name={name}

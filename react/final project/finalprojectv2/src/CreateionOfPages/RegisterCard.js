@@ -2,15 +2,19 @@ import { UserContext } from "../contexts/UserContext";
 import React, { useContext, useEffect, useState } from "react";
 import CreateComp from "../ResourcesProject/CreateComp";
 import Container from "react-bootstrap/Container";
-import axios from "axios";
 import Button from "react-bootstrap/Button";
-import { projectId } from "../OnlineServices/consts";
-import { createNewCard } from "../OnlineServices/api";
+import Col from "react-bootstrap/esm/Col";
+import Row from "react-bootstrap/esm/Row";
+import { createNewCard, getUserData } from "../OnlineServices/api";
+import { ThemeContext } from "../contexts/ThemeProvider";
+import { useParams } from "react-router-dom";
 
 function RegisterCard() {
   const { readbleToken, token } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
+  const { id } = useParams();
+  const [editMod, setEditMod] = useState(id ? true : false);
   const [submitCard, setSubmitCard] = useState({
-    CardCategory: "",
     CardID: Math.floor(Math.random() * 100000000000),
     OwnerID: null,
     Title: "",
@@ -24,7 +28,6 @@ function RegisterCard() {
   });
 
   useEffect(() => {
-    console.log(readbleToken);
     setSubmitCard({ ...submitCard, OwnerID: readbleToken?.ID });
   }, [readbleToken]);
 
@@ -54,9 +57,23 @@ function RegisterCard() {
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-        {callCreateComponent("CardCategory", "Card Category")}
-        {callCreateComponent("Title", "Card Title")}
-        {callCreateComponent("Descreption", "Card Descreption")}
+        <h1
+          className={`text-center text-${theme === "dark" ? "light" : "dark"}`}
+        >
+          {editMod ? "Edit Card Page" : "Card Creation Page"}
+        </h1>
+        <Row>
+          <Col>{callCreateComponent("Title", "Card Title")}</Col>
+          <Col>{callCreateComponent("Descreption", "Card Descreption")}</Col>
+        </Row>
+        <Row>
+          <Col>{callCreateComponent("Location", "Location")}</Col>
+          <Col>{callCreateComponent("PhoneNumber", "PhoneNumber")}</Col>
+        </Row>
+        {callCreateComponent("Picture", "Picture Link")}
+        {callCreateComponent("PictureDescription", "Picture Description")}
+        {callCreateComponent("Website", "Website Link")}
+        {callCreateComponent("Facebook", "Facebook Link")}
         <Button variant="success" type="submit">
           Submit
         </Button>

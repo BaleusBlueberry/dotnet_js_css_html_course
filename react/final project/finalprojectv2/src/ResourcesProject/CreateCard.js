@@ -23,6 +23,7 @@ function CreateCard(props) {
             </Col>
             <Col>
               <Button variant="primary">Go somewhere</Button>
+              // change gow it all to fit with the new format //
             </Col>
           </Row>
         </Card.Body>
