@@ -25,6 +25,7 @@ function RegisterPage() {
     Country: "",
     City: "",
     HouseNumber: "",
+    Street: "",
     State: "",
     ZipCode: "",
     Favorates: [],
@@ -123,10 +124,11 @@ function RegisterPage() {
             <Row>
               <Col>{callCreateComponent("Country", "Country")}</Col>
               <Col>{callCreateComponent("City", "City")}</Col>
+              <Col>{callCreateComponent("State", "State")}</Col>
             </Row>
             <Row>
+              <Col>{callCreateComponent("Street", "Street")}</Col>
               <Col>{callCreateComponent("HouseNumber", "House Number")}</Col>
-              <Col>{callCreateComponent("State", "State")}</Col>
               <Col>{callCreateComponent("ZipCode", "ZipCode", "number")}</Col>
             </Row>
           </>

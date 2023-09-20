@@ -24,8 +24,8 @@ function CardsPage() {
     <Container>
       <Row>
         {cards.map((card) => (
-          <Col>
-            <CreateCard info={card} />
+          <Col key={card.Data.CardID}>
+            <CreateCard card={card} />
           </Col>
         ))}
       </Row>

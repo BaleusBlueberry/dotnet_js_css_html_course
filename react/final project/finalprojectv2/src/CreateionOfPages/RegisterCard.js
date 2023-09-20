@@ -19,12 +19,17 @@ function RegisterCard() {
     OwnerID: null,
     Title: "",
     Descreption: "",
-    Location: "",
     Picture: "",
     PictureDescription: "",
     Website: "",
     Facebook: "",
     PhoneNumber: "",
+    Country: "",
+    City: "",
+    HouseNumber: "",
+    Street: "",
+    State: "",
+    ZipCode: "",
   });
 
   useEffect(() => {
@@ -67,7 +72,16 @@ function RegisterCard() {
           <Col>{callCreateComponent("Descreption", "Card Descreption")}</Col>
         </Row>
         <Row>
-          <Col>{callCreateComponent("Location", "Location")}</Col>
+          <Col>{callCreateComponent("Country", "Country")}</Col>
+          <Col>{callCreateComponent("City", "City")}</Col>
+          <Col>{callCreateComponent("State", "State")}</Col>
+        </Row>
+        <Row>
+          <Col>{callCreateComponent("Street", "Street")}</Col>
+          <Col>{callCreateComponent("HouseNumber", "House Number")}</Col>
+          <Col>{callCreateComponent("ZipCode", "ZipCode", "number")}</Col>
+        </Row>
+        <Row>
           <Col>{callCreateComponent("PhoneNumber", "PhoneNumber")}</Col>
         </Row>
         {callCreateComponent("Picture", "Picture Link")}
