@@ -7,6 +7,7 @@ import LoginPage from "../BuildInPages/LoginPage";
 import RegisterCard from "../CreateionOfPages/RegisterCard";
 import { AuthProvider } from "../contexts/UserContext";
 import { ThemeProvider } from "../contexts/ThemeProvider";
+import UserCards from "../BuildInPages/UserCards";
 
 function MainRouter() {
   return (
@@ -24,6 +25,7 @@ function MainRouter() {
             <Route path="/Login" element={<LoginPage />} />
             <Route path="/RegisterCard/:id" element={<RegisterCard />} />
             <Route path="/RegisterCard" element={<RegisterCard />} />
+            <Route path="/UserCards" element={<UserCards />} />
           </Routes>
           <Footer />
         </BrowserRouter>

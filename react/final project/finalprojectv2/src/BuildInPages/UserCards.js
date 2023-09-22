@@ -7,11 +7,11 @@ import { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { UserContext } from "../contexts/UserContext";
 
-function CardsPage() {
-  const { cards, loading } = useContext(UserContext);
+function UserCards() {
+  const { userCards, loading } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
 
-  console.log(cards);
+  console.log(userCards);
 
   if (loading) {
     return (
@@ -22,15 +22,23 @@ function CardsPage() {
   }
   return (
     <Container>
-      <Row>
-        {cards.map((card) => (
-          <Col key={card.Data.CardID}>
-            <CreateCard card={card} />
-          </Col>
-        ))}
-      </Row>
+      {Array.isArray(userCards) && userCards.length ? (
+        <Row>
+          {userCards.map((card) => (
+            <Col key={card.Data.CardID}>
+              <CreateCard card={card} />
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <h1
+          className={`text-center text-${theme === "dark" ? "light" : "dark"}`}
+        >
+          There are no Cards that belong to the user
+        </h1>
+      )}
     </Container>
   );
 }
 
-export default CardsPage;
+export default UserCards;

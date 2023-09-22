@@ -8,9 +8,11 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
 import { ThemeContext } from "../contexts/ThemeProvider";
+import { UserContext } from "../contexts/UserContext";
 
 function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { readbleToken, token, Loggout } = useContext(UserContext);
 
   const changeTheme = () => {
     toggleTheme();
@@ -34,6 +36,7 @@ function Header() {
             <Nav.Link href="/Register">Register</Nav.Link>
             <Nav.Link href="/Login">LOGIN</Nav.Link>
             <Nav.Link href="/RegisterCard">Create Card</Nav.Link>
+            <Nav.Link href="/UserCards">UserCards</Nav.Link>
           </Nav>
           <Nav>
             <Form className="d-flex" onSubmit={() => {}}>
@@ -53,7 +56,9 @@ function Header() {
               )}
             </Nav.Link>
             <NavDropdown title="Logged in User" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#">Logout</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => Loggout()} href="/">
+                Logout
+              </NavDropdown.Item>
               <NavDropdown.Item href="#">Edit profile</NavDropdown.Item>
               <NavDropdown.Item href="#">Favorites</NavDropdown.Item>
               <NavDropdown.Divider />

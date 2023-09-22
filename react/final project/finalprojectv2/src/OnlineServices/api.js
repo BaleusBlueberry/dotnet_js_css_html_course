@@ -105,3 +105,49 @@ export const getItems = (token, itemCategory = "Cards") => {
       throw error;
     });
 };
+
+export const getItem = (token, itemCategory = "Cards", itemId) => {
+  const config = token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : {};
+
+  return api
+    .get(`/item/${projectId}_${itemCategory}/${itemId}`, config)
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error getting items:", error);
+      throw error;
+    });
+};
+
+export const updateItem = (token, itemCategory, itemId, data) => {
+  return api
+    .put(`/item/${projectId}_${itemCategory}/${itemId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error updating item:", error);
+      throw error;
+    });
+};
+
+export const deleteItem = (token, itemCategory, itemId) => {
+  return api
+    .delete(`/item/${projectId}_${itemCategory}/${itemId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error deleting item:", error);
+      throw error;
+    });
+};

@@ -5,18 +5,19 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
+import Spinner from "react-bootstrap/Spinner";
 import { createNewCard, getUserData } from "../OnlineServices/api";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { useParams } from "react-router-dom";
 
 function RegisterCard() {
-  const { readbleToken, token } = useContext(UserContext);
+  const { readbleToken, token, cards } = useContext(UserContext);
   const { theme } = useContext(ThemeContext);
   const { id } = useParams();
   const [editMod, setEditMod] = useState(id ? true : false);
+
   const [submitCard, setSubmitCard] = useState({
-    CardID: Math.floor(Math.random() * 100000000000),
-    OwnerID: null,
+    Ownermail: null,
     Title: "",
     Descreption: "",
     Picture: "",
@@ -33,8 +34,37 @@ function RegisterCard() {
   });
 
   useEffect(() => {
-    setSubmitCard({ ...submitCard, OwnerID: readbleToken?.ID });
+    setSubmitCard({ ...submitCard, Ownermail: readbleToken?.Email });
+    console.log(cards);
+    if (id) {
+      const singleItem = cards.find((card) => card.ItemID === id);
+      if (singleItem) {
+        setSubmitCard({
+          ...submitCard,
+          Title: singleItem.Title || "",
+          Descreption: singleItem.Descreption || "",
+          Picture: singleItem.Picture || "",
+          PictureDescription: singleItem.PictureDescription || "",
+          Website: singleItem.Website || "",
+          Facebook: singleItem.Facebook || "",
+          PhoneNumber: singleItem.PhoneNumber || "",
+          Country: singleItem.Country || "",
+          City: singleItem.City || "",
+          HouseNumber: singleItem.HouseNumber || "",
+          Street: singleItem.Street || "",
+          State: singleItem.State || "",
+          ZipCode: singleItem.ZipCode || "",
+        });
+      }
+    }
   }, [readbleToken]);
+
+  useEffect(() => {
+    if (id) {
+      const singleItem = cards.filter((card) => card.ItemID === id);
+      const singleItemData = singleItem;
+    }
+  }, []);
 
   function callCreateComponent(name, label, type = "text") {
     return (
@@ -59,6 +89,7 @@ function RegisterCard() {
         console.log("it didnt work");
       });
   };
+
   return (
     <Container>
       <form onSubmit={handleSubmit}>

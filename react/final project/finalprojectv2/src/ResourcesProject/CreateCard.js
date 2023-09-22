@@ -6,16 +6,17 @@ import Nav from "react-bootstrap/Nav";
 import {
   Heart,
   HeartFill,
-  AppIndicator,
+  Buildings,
   Facebook,
   TelephoneFill,
 } from "react-bootstrap-icons";
 import { useContext, useState } from "react";
-import GoogleMapReact from "google-map-react";
 import { ThemeContext } from "../contexts/ThemeProvider";
+import { useNavigate } from "react-router-dom";
 
-function CreateCard(props) {
+function CreateCard(props, editMode = true) {
   const { theme } = useContext(ThemeContext);
+  const navigate = useNavigate();
 
   const handleOpenMap = () => {
     const encodedAddress = encodeURIComponent(
@@ -39,6 +40,11 @@ function CreateCard(props) {
             <Nav.Item key="Card">
               <Nav.Link onClick={() => handleOpenMap()}>Card</Nav.Link>
             </Nav.Item>
+            <Nav.Item key="Edit">
+              <Nav.Link href={`/RegisterCard/${props.card.ItemID}`}>
+                Edit
+              </Nav.Link>
+            </Nav.Item>
             {props.card.Data.HouseNumber && (
               <Nav.Item key="Map">
                 <Nav.Link onClick={() => handleOpenMap()}>Map</Nav.Link>
@@ -47,54 +53,51 @@ function CreateCard(props) {
           </Nav>
         </Card.Header>
         <Card.Body>
+          <Card.Title>{props.card.Data.Title}</Card.Title>
           <Card.Img
             variant="top"
             src={props.card.Data.Picture}
             alt={props.card.Data.PictureDescription}
           />
-          <Card.Title>{props.card.Data.Title}</Card.Title>
+
           <Card.Text key="descreption">{props.card.Data.Descreption}</Card.Text>
-          {props.card.Data.PhoneNumber && (
-            <Card.Text className="d-flex align-items-center" key="PhoneNumber">
-              <TelephoneFill></TelephoneFill>
-              <a
-                href={`tel:${props.card.Data.PhoneNumber}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {props.card.Data.PhoneNumber}
-              </a>
-            </Card.Text>
-          )}
-          {props.card.Data.Facebook && (
-            <Card.Text className="d-flex align-items-center" key="Website">
-              <Facebook></Facebook>
-              <a
-                href={props.card.Data.Facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Facebook Link
-              </a>
-            </Card.Text>
-          )}
-          {props.card.Data.Website && (
-            <Card.Text className="d-flex align-items-center" key="Website">
-              <AppIndicator></AppIndicator>
-              <a
-                href={props.card.Data.Website}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Website Link
-              </a>
-            </Card.Text>
-          )}
-          <Row>
-            <Button className="d-flex justify-content-center">
-              <HeartFill></HeartFill>
-            </Button>
-          </Row>
+          <div className="d-flex justify-content-center">
+            <Row className="pb-3">
+              {props.card.Data.PhoneNumber && (
+                <Col>
+                  <a
+                    href={`tel:${props.card.Data.PhoneNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <TelephoneFill size="30"></TelephoneFill>
+                  </a>
+                </Col>
+              )}
+              {props.card.Data.Facebook && (
+                <Col>
+                  <a
+                    href={props.card.Data.Facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Facebook size="30"></Facebook>
+                  </a>
+                </Col>
+              )}
+              {props.card.Data.Website && (
+                <Col>
+                  <a
+                    href={props.card.Data.Website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Buildings size="30"></Buildings>
+                  </a>
+                </Col>
+              )}
+            </Row>
+          </div>
         </Card.Body>
       </Card>
     </div>

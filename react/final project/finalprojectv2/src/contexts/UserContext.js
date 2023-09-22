@@ -11,6 +11,8 @@ export const AuthProvider = ({ children }) => {
   const [readbleToken, setReadbleToken] = useState(null);
   const [user, setUser] = useState(null);
   const [cards, setCards] = useState([]);
+  const [userCards, setUserCards] = useState([]);
+  const [favorateCards, setFavorateCards] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export const AuthProvider = ({ children }) => {
       getItems(token)
         .then((response) => {
           setCards(response);
-          console.log("got items");
+          GetUserCards(response, decoded.Email);
         })
         .catch((err) => {
           throw err;
@@ -33,6 +35,20 @@ export const AuthProvider = ({ children }) => {
       }
     }
   }, [token]);
+
+  const Loggout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    setReadbleToken(null);
+  };
+
+  const GetUserCards = (cards, userEmail) => {
+    const userCardsFiltered = cards.filter(
+      (card) => card.Data.Ownermail === userEmail
+    );
+    setUserCards(userCardsFiltered);
+    console.log(cards);
+  };
 
   const setToken = (newToken) => {
     if (newToken) {
@@ -47,7 +63,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ token, setToken, user, readbleToken, cards, loading }}
+      value={{
+        token,
+        setToken,
+        user,
+        readbleToken,
+        cards,
+        loading,
+        userCards,
+        Loggout,
+      }}
     >
       {children}
     </UserContext.Provider>
