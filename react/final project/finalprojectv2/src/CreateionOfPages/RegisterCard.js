@@ -6,12 +6,13 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import Spinner from "react-bootstrap/Spinner";
-import { createNewCard, getUserData } from "../OnlineServices/api";
+import { createNewCard, getUserData, updateItem } from "../OnlineServices/api";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { useParams } from "react-router-dom";
 
 function RegisterCard() {
-  const { readbleToken, token, cards } = useContext(UserContext);
+  const { readbleToken, token, cards, setReloadCards } =
+    useContext(UserContext);
   const { theme } = useContext(ThemeContext);
   const { id } = useParams();
   const [editMod, setEditMod] = useState(id ? true : false);
@@ -35,10 +36,10 @@ function RegisterCard() {
 
   useEffect(() => {
     setSubmitCard({ ...submitCard, Ownermail: readbleToken?.Email });
-    console.log(cards);
     if (id) {
-      const singleItem = cards.find((card) => card.ItemID === id);
+      let singleItem = cards.find((card) => card.ItemID === id);
       if (singleItem) {
+        singleItem = singleItem.Data;
         setSubmitCard({
           ...submitCard,
           Title: singleItem.Title || "",
@@ -57,7 +58,7 @@ function RegisterCard() {
         });
       }
     }
-  }, [readbleToken]);
+  }, [readbleToken, cards]);
 
   useEffect(() => {
     if (id) {
@@ -66,13 +67,19 @@ function RegisterCard() {
     }
   }, []);
 
-  function callCreateComponent(name, label, type = "text") {
+  function callCreateComponent(
+    name,
+    label,
+    type = "text",
+    required = "required"
+  ) {
     return (
       <CreateComp
         name={name}
         label={label}
         value={submitCard[name]}
         type={type}
+        required={required}
         onChange={(value) => setSubmitCard({ ...submitCard, [name]: value })}
       />
     );
@@ -81,13 +88,26 @@ function RegisterCard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(submitCard);
-    await createNewCard(token, submitCard)
-      .then(() => {
-        console.log("it worked!");
-      })
-      .catch(() => {
-        console.log("it didnt work");
-      });
+    if (id) {
+      console.log("updatedcards");
+      await updateItem(token, "Cards", id, submitCard)
+        .then(() => {
+          console.log("updatedcards successfully");
+        })
+        .catch(() => {
+          console.log("it didn't work top update");
+        });
+    } else {
+      console.log("set new cards");
+      await createNewCard(token, submitCard)
+        .then(() => {
+          console.log("it worked! created a new item");
+        })
+        .catch(() => {
+          console.log("it didnt work");
+        });
+    }
+    setReloadCards("");
   };
 
   return (
@@ -99,26 +119,36 @@ function RegisterCard() {
           {editMod ? "Edit Card Page" : "Card Creation Page"}
         </h1>
         <Row>
-          <Col>{callCreateComponent("Title", "Card Title")}</Col>
-          <Col>{callCreateComponent("Descreption", "Card Descreption")}</Col>
+          <Col>{callCreateComponent("Title", "Card Title", "text", "no")}</Col>
+          <Col>
+            {callCreateComponent(
+              "Descreption",
+              "Card Descreption",
+              "text",
+              "no"
+            )}
+          </Col>
         </Row>
         <Row>
-          <Col>{callCreateComponent("Country", "Country")}</Col>
-          <Col>{callCreateComponent("City", "City")}</Col>
-          <Col>{callCreateComponent("State", "State")}</Col>
+          <Col>{callCreateComponent("Country", "Country", "text", "no")}</Col>
+          <Col>{callCreateComponent("City", "City", "text", "no")}</Col>
+          <Col>{callCreateComponent("State", "State", "text", "no")}</Col>
         </Row>
         <Row>
-          <Col>{callCreateComponent("Street", "Street")}</Col>
-          <Col>{callCreateComponent("HouseNumber", "House Number")}</Col>
-          <Col>{callCreateComponent("ZipCode", "ZipCode", "number")}</Col>
+          <Col>{callCreateComponent("Street", "Street", "text", "no")}</Col>
+          <Col>
+            {callCreateComponent("HouseNumber", "House Number", "text", "no")}
+          </Col>
+          <Col>
+            {callCreateComponent("ZipCode", "ZipCode", "number", "text", "no")}
+          </Col>
         </Row>
-        <Row>
-          <Col>{callCreateComponent("PhoneNumber", "PhoneNumber")}</Col>
-        </Row>
+
         {callCreateComponent("Picture", "Picture Link")}
         {callCreateComponent("PictureDescription", "Picture Description")}
-        {callCreateComponent("Website", "Website Link")}
-        {callCreateComponent("Facebook", "Facebook Link")}
+        {callCreateComponent("PhoneNumber", "PhoneNumber", "text", "no")}
+        {callCreateComponent("Website", "Website Link", "text", "no")}
+        {callCreateComponent("Facebook", "Facebook Link", "text", "no")}
         <Button variant="success" type="submit">
           Submit
         </Button>

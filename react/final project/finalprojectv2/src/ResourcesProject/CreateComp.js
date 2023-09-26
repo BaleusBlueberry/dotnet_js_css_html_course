@@ -26,7 +26,7 @@ function CreateComp(props) {
   ]);
 
   const controlProps = {
-    required: true,
+    required: props.required === "required" ? true : false,
     type: props.type,
     placeholder: props.label,
     name: props.name,

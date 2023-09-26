@@ -9,13 +9,17 @@ import {
   Buildings,
   Facebook,
   TelephoneFill,
+  Trash,
 } from "react-bootstrap-icons";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { useNavigate } from "react-router-dom";
+import { deleteItem } from "../OnlineServices/api";
+import { UserContext } from "../contexts/UserContext";
 
 function CreateCard(props, editMode = true) {
   const { theme } = useContext(ThemeContext);
+  const { token, setReloadCards } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleOpenMap = () => {
@@ -25,6 +29,19 @@ function CreateCard(props, editMode = true) {
     const googleAdress = `https://www.google.com/maps/search/?api=1&q=${encodedAddress}`;
 
     window.open(googleAdress, "_blank");
+  };
+
+  const handledeleteItem = async (e) => {
+    await deleteItem(token, "Cards", props.card.Data.CardID)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("didn't trash the panda");
+      })
+      .finally(() => {
+        setReloadCards(Math.random() * 1000);
+      });
   };
 
   return (
@@ -40,16 +57,21 @@ function CreateCard(props, editMode = true) {
             <Nav.Item key="Card">
               <Nav.Link onClick={() => handleOpenMap()}>Card</Nav.Link>
             </Nav.Item>
-            <Nav.Item key="Edit">
-              <Nav.Link href={`/RegisterCard/${props.card.ItemID}`}>
-                Edit
-              </Nav.Link>
-            </Nav.Item>
             {props.card.Data.HouseNumber && (
               <Nav.Item key="Map">
                 <Nav.Link onClick={() => handleOpenMap()}>Map</Nav.Link>
               </Nav.Item>
             )}
+            <Nav.Item key="Edit">
+              <Nav.Link href={`/RegisterCard/${props.card.ItemID}`}>
+                Edit
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item key="Deleate">
+              <Nav.Link onClick={() => handledeleteItem()}>
+                <Trash />
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
         </Card.Header>
         <Card.Body>

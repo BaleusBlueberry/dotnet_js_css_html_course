@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [userCards, setUserCards] = useState([]);
   const [favorateCards, setFavorateCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reloadCards, setReloadCards] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
       }
     }
-  }, [token]);
+  }, [token, setReloadCards]);
 
   const Loggout = () => {
     localStorage.removeItem("token");
@@ -72,6 +73,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         userCards,
         Loggout,
+        setReloadCards,
       }}
     >
       {children}
