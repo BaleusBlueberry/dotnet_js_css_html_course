@@ -17,22 +17,14 @@ import { useNavigate } from "react-router-dom";
 import { deleteItem } from "../OnlineServices/api";
 import { UserContext } from "../contexts/UserContext";
 
-function CreateCard(props, editMode = true) {
+function CreateCard(card, editMode = true) {
   const { theme } = useContext(ThemeContext);
-  const { token, setReloadCards } = useContext(UserContext);
+  const { token, setReloadCards, setFavorateCardsFunction } =
+    useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleOpenMap = () => {
-    const encodedAddress = encodeURIComponent(
-      `${props.card.Data.HouseNumber} ${props.card.Data.Street} ${props.card.Data.City} ${props.card.Data.State} ${props.card.Data.Country} ${props.card.Data.ZipCode}`
-    );
-    const googleAdress = `https://www.google.com/maps/search/?api=1&q=${encodedAddress}`;
-
-    window.open(googleAdress, "_blank");
-  };
-
   const handledeleteItem = async (e) => {
-    await deleteItem(token, "Cards", props.card.Data.CardID)
+    await deleteItem(token, "Cards", card.card.Data.CardID)
       .then((response) => {
         console.log(response);
       })
@@ -44,10 +36,15 @@ function CreateCard(props, editMode = true) {
       });
   };
 
+  const handleFavorateItem = () => {
+    console.log(card);
+    setFavorateCardsFunction(card, card.card.Data.Ownermail);
+  };
+
   return (
     <div className="d-flex justify-content-around pb-5 h-100 border-0 rounded">
       <Card
-        key={props.card.Data.CardID}
+        key={card._id}
         style={{ width: "18rem" }}
         className="position-relative shadow-sm"
         data-bs-theme={theme}
@@ -55,66 +52,43 @@ function CreateCard(props, editMode = true) {
         <Card.Header data-bs-theme={theme}>
           <Nav variant="tabs" defaultActiveKey="#first">
             <Nav.Item key="Card">
-              <Nav.Link onClick={() => handleOpenMap()}>Card</Nav.Link>
+              <Nav.Link onClick={() => console.log("clicked")}>Card</Nav.Link>
             </Nav.Item>
-            {props.card.Data.HouseNumber && (
+            {card.address.houseNumber && (
               <Nav.Item key="Map">
-                <Nav.Link onClick={() => handleOpenMap()}>Map</Nav.Link>
+                <Nav.Link onClick={() => console.log("clicked")}>Map</Nav.Link>
               </Nav.Item>
             )}
             <Nav.Item key="Edit">
-              <Nav.Link href={`/RegisterCard/${props.card.ItemID}`}>
-                Edit
-              </Nav.Link>
+              <Nav.Link href={`/RegisterCard/${card._id}`}>Edit</Nav.Link>
             </Nav.Item>
             <Nav.Item key="Deleate">
               <Nav.Link onClick={() => handledeleteItem()}>
                 <Trash />
               </Nav.Link>
             </Nav.Item>
+            <Nav.Item key="Favorate">
+              <Nav.Link onClick={() => handleFavorateItem()}>
+                <Heart />
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
         </Card.Header>
         <Card.Body>
-          <Card.Title>{props.card.Data.Title}</Card.Title>
-          <Card.Img
-            variant="top"
-            src={props.card.Data.Picture}
-            alt={props.card.Data.PictureDescription}
-          />
+          <Card.Title>{card.title}</Card.Title>
+          <Card.Img variant="top" src={card.image.url} alt={card.image.alt} />
 
-          <Card.Text key="descreption">{props.card.Data.Descreption}</Card.Text>
+          <Card.Text key="descreption">{card.description}</Card.Text>
           <div className="d-flex justify-content-center">
             <Row className="pb-3">
-              {props.card.Data.PhoneNumber && (
+              {card.phone && (
                 <Col>
                   <a
-                    href={`tel:${props.card.Data.PhoneNumber}`}
+                    href={`tel:${card.phone}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <TelephoneFill size="30"></TelephoneFill>
-                  </a>
-                </Col>
-              )}
-              {props.card.Data.Facebook && (
-                <Col>
-                  <a
-                    href={props.card.Data.Facebook}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Facebook size="30"></Facebook>
-                  </a>
-                </Col>
-              )}
-              {props.card.Data.Website && (
-                <Col>
-                  <a
-                    href={props.card.Data.Website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Buildings size="30"></Buildings>
                   </a>
                 </Col>
               )}

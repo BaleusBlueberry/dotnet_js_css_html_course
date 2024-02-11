@@ -12,7 +12,6 @@ import { UserContext } from "../contexts/UserContext";
 
 function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { readbleToken, token, Loggout } = useContext(UserContext);
 
   const changeTheme = () => {
     toggleTheme();
@@ -56,7 +55,10 @@ function Header() {
               )}
             </Nav.Link>
             <NavDropdown title="Logged in User" id="collapsible-nav-dropdown">
-              <NavDropdown.Item onClick={() => Loggout()} href="/">
+              <NavDropdown.Item
+                onClick={() => /*Loggout()*/ console.log("loggedout")}
+                href="/"
+              >
                 Logout
               </NavDropdown.Item>
               <NavDropdown.Item href="#">Edit profile</NavDropdown.Item>

@@ -5,6 +5,7 @@ const api = axios.create({
   baseURL: myApiLink,
 });
 
+// makes the api call to login the user
 export const loginUser = (email, password) => {
   return api
     .post(`/login/${projectId}`, {
@@ -17,6 +18,7 @@ export const loginUser = (email, password) => {
     });
 };
 
+// makes the api call to register the user
 export const registerNewUser = (data) => {
   return new Promise((resolve) => {
     api

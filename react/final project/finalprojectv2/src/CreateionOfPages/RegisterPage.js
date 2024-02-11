@@ -6,60 +6,75 @@ import CreateComp from "../ResourcesProject/CreateComp";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
-import { registerNewUser } from "../OnlineServices/api";
+import { registerUser } from "../OnlineServices/apiUsers";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeProvider";
-import { UserContext } from "../contexts/UserContext";
+import BuildRegisterRequestPayload from "../ResourcesProject/RegisterBuilder";
 
 function RegisterPage() {
+  // store the register data
   const restRegister = {
-    Role: "admin",
-    ID: Math.floor(Math.random() * 100000000000),
-    Name: "",
-    LastName: "",
-    Email: "",
-    Password: "",
-    IsBusines: false,
-    CompanyName: "",
-    Phone: "",
-    Country: "",
-    City: "",
-    HouseNumber: "",
-    Street: "",
-    State: "",
-    ZipCode: "",
-    Favorates: [],
+    first: "",
+    middle: "",
+    last: "",
+    email: "",
+    password: "",
+    isBusines: false,
+    companyName: "",
+    phone: "",
+    country: "",
+    city: "",
+    houseNumber: "",
+    street: "",
+    state: "",
+    zip: "",
+    url: "",
+    alt: "",
   };
+  // makes register data change each time the user changes a field
   const [registerData, setRegisterData] = useState(restRegister);
+
+  // show alert function
   const [showAlert, setShowAlert] = useState(null);
   const [alertMassage, setAlertMassage] = useState(null);
   const [alertType, setAlertType] = useState(null);
-  const navigate = useNavigate();
-  const { theme } = useContext(ThemeContext);
-  const { setToken, readbleToken } = useContext(UserContext);
 
+  // navigation function
+  const navigate = useNavigate();
+
+  // controlls the dark / light theme of the page
+  const { theme } = useContext(ThemeContext);
+
+  // controlls what happands when use clicks register
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(registerData);
 
-    await registerNewUser(registerData)
-      .then((_response) => {
-        setToken(_response.token);
-        setAlertMassage("Registerd successfully");
-        setAlertType("success");
-        setShowAlert(true);
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      })
-      .catch((error) => {
-        console.log(error);
-        setAlertMassage("There was an error, please try again");
-        setAlertType("danger");
-        setShowAlert(true);
-      });
+    // transforms the data into the correct object type
+    const payload = BuildRegisterRequestPayload(registerData);
+
+    // posts to the register function that posts to the api with the current registerd data
+    const response = await registerUser(payload);
+
+    // after the response from the api if successful
+    if (!response.success) {
+      setAlertMassage(response.message);
+      setAlertType("danger");
+      setShowAlert(true);
+    } else if (response.success) {
+      // on sucsesful login, display success alert wait 2 seconds and navigate to the main page
+      setAlertMassage("Registered Successfully");
+      setAlertType("success");
+      setShowAlert(true);
+      setTimeout(() => {
+        //navigate("/");
+      }, 2000);
+    }
   };
 
+  // a function that compiles the fields in the page
   function callCreateComponent(name, label, type = "text") {
+    name = name[0].toLowerCase() + name.slice(1);
     return (
       <CreateComp
         name={name}
@@ -86,8 +101,8 @@ function RegisterPage() {
           Register Page
         </h1>
         <Row>
-          <Col>{callCreateComponent("Name", "First Name")}</Col>
-          <Col>{callCreateComponent("LastName", "Last Name")}</Col>
+          <Col>{callCreateComponent("first", "First Name")}</Col>
+          <Col>{callCreateComponent("last", "Last Name")}</Col>
         </Row>
         {callCreateComponent("Email", "Email", "email")}
         {callCreateComponent("Password", "Password", "password")}
@@ -117,6 +132,8 @@ function RegisterPage() {
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+
+        {/* if user selected that they are a busness, show this */}
         {registerData.IsBusines && (
           <>
             {callCreateComponent("CompanyName", "Company Name")}
@@ -129,11 +146,11 @@ function RegisterPage() {
             <Row>
               <Col>{callCreateComponent("Street", "Street")}</Col>
               <Col>{callCreateComponent("HouseNumber", "House Number")}</Col>
-              <Col>{callCreateComponent("ZipCode", "ZipCode", "number")}</Col>
+              <Col>{callCreateComponent("Zip", "ZipCode", "number")}</Col>
             </Row>
           </>
         )}
-        <Button variant="success" type="submit" size="lg">
+        <Button variant="success" type="submit" size="lg" className="mb-5 mb-6">
           Register
         </Button>
       </form>

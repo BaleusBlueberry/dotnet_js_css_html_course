@@ -2,35 +2,32 @@ import Container from "react-bootstrap/esm/Container";
 import CreateCard from "../ResourcesProject/CreateCard";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
-import Spinner from "react-bootstrap/Spinner";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { UserContext } from "../contexts/UserContext";
+import { getAllCards } from "../OnlineServices/apiCards";
 
-function CardsPage() {
-  const { cards, loading } = useContext(UserContext);
-  const { theme } = useContext(ThemeContext);
+const Cards = () => {
+  const [cards, setCards] = useState([]);
+  useEffect(() => {
+    async function inner() {
+      const response = await getAllCards();
+      console.log(response);
+      setCards(response.message);
+    }
+    inner();
+  }, []);
 
-  console.log(cards);
-
-  if (loading) {
-    return (
-      <Container className="d-flex justify-content-center mt-5">
-        <Spinner variant="secondary" animation="border" />
-      </Container>
-    );
-  }
   return (
-    <Container>
-      <Row>
+    <>
+      <h1>Cards</h1>
+      <ul>
         {cards.map((card) => (
-          <Col key={card.Data.CardID}>
-            <CreateCard card={card} />
-          </Col>
+          <CreateCard key={card._id} card={card} />
         ))}
-      </Row>
-    </Container>
+      </ul>
+    </>
   );
-}
+};
 
-export default CardsPage;
+export default Cards;

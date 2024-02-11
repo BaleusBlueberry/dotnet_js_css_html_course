@@ -10,3 +10,4 @@ typescript: npm create-react-app routertutorial --template typescript
 
 bootstrap: npm install bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
+create calls for api: npm i axios

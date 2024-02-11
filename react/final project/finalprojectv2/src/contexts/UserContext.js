@@ -1,41 +1,36 @@
-import jwtDecode from "jwt-decode";
 import { createContext, useState, useEffect } from "react";
-import { projectId } from "../OnlineServices/consts";
-import { getItems } from "../OnlineServices/api";
+import { getItems, updateItem } from "../OnlineServices/api";
+import { getAllCards } from "../OnlineServices/apiCards";
 
 export const UserContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const tokenFromStorage = localStorage.getItem("token");
-  const [token, setTokens] = useState(tokenFromStorage);
   const [readbleToken, setReadbleToken] = useState(null);
   const [user, setUser] = useState(null);
   const [cards, setCards] = useState([]);
-  const [userCards, setUserCards] = useState([]);
   const [favorateCards, setFavorateCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reloadCards, setReloadCards] = useState(null);
 
   useEffect(() => {
-    if (token) {
-      const decoded = jwtDecode(token);
-      setReadbleToken(decoded);
-      getItems(token)
-        .then((response) => {
-          setCards(response);
-          GetUserCards(response, decoded.Email);
-        })
-        .catch((err) => {
-          throw err;
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-      if (decoded.ProjectID !== projectId) {
-        setToken(null);
-      }
+    async function inner() {
+      const response = await getAllCards();
+      console.log(response);
+      setCards(response.message);
     }
-  }, [token, setReloadCards]);
+    inner();
+  }, []);
+
+  const setFavorateCardsFunction = async (data, useMail) => {
+    if (favorateCards) {
+    } else {
+      console.log("this is the user: " + data + " " + useMail);
+      console.log(data.card.ItemID);
+
+      let modefideData = data;
+      modefideData.card.Data.Ownermail = "Animal@shelter.com";
+    }
+  };
 
   const Loggout = () => {
     localStorage.removeItem("token");
@@ -43,37 +38,21 @@ export const AuthProvider = ({ children }) => {
     setReadbleToken(null);
   };
 
-  const GetUserCards = (cards, userEmail) => {
-    const userCardsFiltered = cards.filter(
-      (card) => card.Data.Ownermail === userEmail
-    );
-    setUserCards(userCardsFiltered);
-    console.log(cards);
-  };
-
-  const setToken = (newToken) => {
-    if (newToken) {
-      localStorage.setItem("token", newToken);
-    } else {
-      localStorage.removeItem("token");
-      setUser(null);
-      setReadbleToken(null);
-    }
-    setTokens(newToken);
-  };
+  useEffect(() => {
+    setCards(JSON.parse(localStorage.getItem("Cards")));
+    setFavorateCards();
+  }, []);
 
   return (
     <UserContext.Provider
       value={{
-        token,
-        setToken,
         user,
         readbleToken,
         cards,
         loading,
-        userCards,
         Loggout,
         setReloadCards,
+        setFavorateCardsFunction,
       }}
     >
       {children}

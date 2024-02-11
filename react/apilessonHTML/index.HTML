@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const getPokemon = async () => {
+        let result = await fetch(`https://pokeapi.co/api/v2/pokemon/eevee`);
+        const data = await result.json();
+        console.log(data);
+        yiff(data);
+      };
+      getPokemon();
+    </script>
+  </body>
+</html>
