@@ -36,7 +36,7 @@ export const getCard = (id) => {
 };
 export const RegisterCardApi = (data) => {
   return api
-    .post(`cards`, { data })
+    .post(`cards`, data)
     .then((response) => {
       return {
         success: true,
