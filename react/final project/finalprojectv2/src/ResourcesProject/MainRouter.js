@@ -7,6 +7,7 @@ import RegisterCard from "../CreateionOfPages/RegisterCard";
 import { ThemeProvider } from "../contexts/ThemeProvider";
 import UserCards from "../BuildInPages/UserCards";
 import Cards from "../BuildInPages/CardsPage";
+import SingleCard from "../BuildInPages/SingleCard";
 
 function MainRouter() {
   return (
@@ -21,6 +22,7 @@ function MainRouter() {
           <Route path="/RegisterCard/:id" element={<RegisterCard />} />
           <Route path="/RegisterCard" element={<RegisterCard />} />
           <Route path="/UserCards" element={<UserCards />} />
+          <Route path="/SingleCard/:id" element={<SingleCard />} />
         </Routes>
         <Footer />
       </BrowserRouter>

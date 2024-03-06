@@ -48,3 +48,21 @@ export const registerUser = (userObj) => {
       };
     });
 };
+
+export const GetUser = (userId) => {
+  return api
+    .get(`users/${userId}`)
+    .then((response) => {
+      return {
+        success: true,
+        message: response.data,
+      };
+    })
+    .catch((error) => {
+      console.error(error);
+      return {
+        success: false,
+        message: error.response.data,
+      };
+    });
+};

@@ -14,47 +14,35 @@ import {
 import { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { useNavigate } from "react-router-dom";
-import { deleteItem } from "../OnlineServices/api";
-import { UserContext } from "../contexts/UserContext";
 
-function CreateCard(card, editMode = true) {
+function CreateCard({ card }, editMode = true) {
   const { theme } = useContext(ThemeContext);
-  const { token, setReloadCards, setFavorateCardsFunction } =
-    useContext(UserContext);
   const navigate = useNavigate();
-
-  const handledeleteItem = async (e) => {
-    await deleteItem(token, "Cards", card.card.Data.CardID)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("didn't trash the panda");
-      })
-      .finally(() => {
-        setReloadCards(Math.random() * 1000);
-      });
-  };
+  console.log(card);
+  console.log(card.title);
 
   const handleFavorateItem = () => {
     console.log(card);
-    setFavorateCardsFunction(card, card.card.Data.Ownermail);
+    // setFavorateCardsFunction(card, card.card.Data.Ownermail);
   };
 
   return (
-    <div className="d-flex justify-content-around pb-5 h-100 border-0 rounded">
+    <div className="d-flex justify-content-around pb-1 h-100 border-0 rounded overflow-hidden">
       <Card
         key={card._id}
-        style={{ width: "18rem" }}
+        style={{ width: "24rem", height: "40rem", minHeight: "30rem" }}
         className="position-relative shadow-sm"
         data-bs-theme={theme}
+        onClick={() => {
+          navigate(`SingleCard/${card._id}`);
+        }}
       >
         <Card.Header data-bs-theme={theme}>
           <Nav variant="tabs" defaultActiveKey="#first">
             <Nav.Item key="Card">
               <Nav.Link onClick={() => console.log("clicked")}>Card</Nav.Link>
             </Nav.Item>
-            {card.address.houseNumber && (
+            {card.address?.houseNumber && (
               <Nav.Item key="Map">
                 <Nav.Link onClick={() => console.log("clicked")}>Map</Nav.Link>
               </Nav.Item>
@@ -63,7 +51,7 @@ function CreateCard(card, editMode = true) {
               <Nav.Link href={`/RegisterCard/${card._id}`}>Edit</Nav.Link>
             </Nav.Item>
             <Nav.Item key="Deleate">
-              <Nav.Link onClick={() => handledeleteItem()}>
+              <Nav.Link onClick={() => console.log("attemted to deleate item")}>
                 <Trash />
               </Nav.Link>
             </Nav.Item>
@@ -76,7 +64,20 @@ function CreateCard(card, editMode = true) {
         </Card.Header>
         <Card.Body>
           <Card.Title>{card.title}</Card.Title>
-          <Card.Img variant="top" src={card.image.url} alt={card.image.alt} />
+          {/* if card.image.url empty provide a generic image */}
+          {card?.image ? (
+            <Card.Img
+              variant="top"
+              src={card.image.url}
+              alt={card.image.alt || "empty alt image"}
+            />
+          ) : (
+            <Card.Img
+              variant="top"
+              src="https://cdn-icons-png.flaticon.com/512/3443/3443338.png"
+              alt="Busness icon"
+            />
+          )}
 
           <Card.Text key="descreption">{card.description}</Card.Text>
           <div className="d-flex justify-content-center">

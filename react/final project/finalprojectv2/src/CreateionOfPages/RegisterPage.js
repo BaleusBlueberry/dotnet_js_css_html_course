@@ -104,28 +104,28 @@ function RegisterPage() {
           <Col>{callCreateComponent("first", "First Name")}</Col>
           <Col>{callCreateComponent("last", "Last Name")}</Col>
         </Row>
-        {callCreateComponent("Email", "Email", "email")}
-        {callCreateComponent("Password", "Password", "password")}
+        {callCreateComponent("email", "Email", "email")}
+        {callCreateComponent("password", "Password", "password")}
         <p className={`${theme === "dark" ? "text-secondary" : "text-dark"}`}>
           Password must have: 1 uppercase letter, 1 lowercase letter, 4 or more
           digits, 1 special character (!@%$#^&-_), and be at least 8 characters
           long.
         </p>
         <Dropdown data-bs-theme={theme}>
-          <Dropdown.Toggle variant="success" id="IsBusnies" className="mb-3">
+          <Dropdown.Toggle variant="success" id="isBusnies" className="mb-3">
             {registerData.IsBusines ? "Is a Busines" : "Not a Busines"}
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item
               onClick={() =>
-                setRegisterData({ ...registerData, IsBusines: false })
+                setRegisterData({ ...registerData, isBusines: false })
               }
             >
               Not a Busines
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() =>
-                setRegisterData({ ...registerData, IsBusines: true })
+                setRegisterData({ ...registerData, isBusines: true })
               }
             >
               Is a Busines
@@ -134,7 +134,7 @@ function RegisterPage() {
         </Dropdown>
 
         {/* if user selected that they are a busness, show this */}
-        {registerData.IsBusines && (
+        {registerData.isBusines && (
           <>
             {callCreateComponent("CompanyName", "Company Name")}
             {callCreateComponent("Phone", "Phone Number", "phone")}

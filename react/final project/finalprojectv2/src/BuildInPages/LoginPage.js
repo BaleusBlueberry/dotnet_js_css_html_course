@@ -5,15 +5,16 @@ import Button from "react-bootstrap/esm/Button";
 import Alert from "react-bootstrap/Alert";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeProvider";
+import jwt from "jsonwebtoken-promisified";
 
-import { loginUser } from "../OnlineServices/apiUsers";
+import { GetUser, loginUser } from "../OnlineServices/apiUsers";
 
 //main function for login
 function LoginPage() {
   //store the user and password data
   const [registerData, setRegisterData] = useState({
-    email: "ellvis@email.com",
-    password: "Abc!123Abc",
+    email: "test@test.test",
+    password: "Test1234!",
   });
   // show the alert with off/on
   const [showAlert, setShowAlert] = useState(null);
@@ -35,20 +36,23 @@ function LoginPage() {
     const response = await loginUser(registerData.email, registerData.password);
     // writes the response to console
     console.log(response);
+    const token = localStorage.getItem("token");
+    const responceUser = await GetUser();
+    console.log(responceUser);
     // the input from the api response.success from userservises true/false
-    if (!response.success) {
-      setAlertMassage(response.message);
-      setAlertType("danger");
-      setShowAlert(true);
-    } else if (response.success) {
-      // on sucsesful login, display success alert wait 2 seconds and navigate to the main page
-      setAlertMassage("Logged in successfully");
-      setAlertType("success");
-      setShowAlert(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    }
+    // if (!response.success) {
+    //   setAlertMassage(response.message);
+    //   setAlertType("danger");
+    //   setShowAlert(true);
+    // } else if (response.success) {
+    //   // on sucsesful login, display success alert wait 2 seconds and navigate to the main page
+    //   setAlertMassage("Logged in successfully");
+    //   setAlertType("success");
+    //   setShowAlert(true);
+    //   setTimeout(() => {
+    //     navigate("/");
+    //   }, 2000);
+    // }
   };
   // compiles the loginpage fillable fiealds
   function callCreateComponent(name, label, type = "text", req = "true") {

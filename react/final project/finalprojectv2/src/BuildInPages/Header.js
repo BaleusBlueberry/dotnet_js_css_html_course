@@ -8,7 +8,6 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
 import { ThemeContext } from "../contexts/ThemeProvider";
-import { UserContext } from "../contexts/UserContext";
 
 function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
