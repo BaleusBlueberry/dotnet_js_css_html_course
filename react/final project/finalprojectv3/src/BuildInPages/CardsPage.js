@@ -24,7 +24,7 @@ const Cards = () => {
       <Row xs={1} md={3} lg={5} className="g-4">
         {cards.map((card) => (
           <Col key={card._id}>
-            <CreateCard card={card} />
+            <CreateCard card={card} isUserCard={false} />
           </Col>
         ))}
       </Row>

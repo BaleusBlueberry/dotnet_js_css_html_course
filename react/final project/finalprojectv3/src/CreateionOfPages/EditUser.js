@@ -75,7 +75,6 @@ function EditUser() {
 
     // transforms the data into the correct object type
     const payload = BuildRegisterRequestPayload(registerData);
-    console.log(payload);
 
     // posts to the register function that posts to the api with the current registerd data
     const response = await UpdateUser(user._id, payload);

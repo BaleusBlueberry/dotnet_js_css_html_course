@@ -3,43 +3,46 @@ import CreateCard from "../ResourcesProject/CreateCard";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Spinner from "react-bootstrap/Spinner";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeProvider";
+import { getAllCards } from "../OnlineServices/apiCards";
 
-function UserCards() {
-  // const { userCards, loading } = useContext(UserContext);
+const UserCards = () => {
+  const [cards, setCards] = useState([]);
   const { theme } = useContext(ThemeContext);
 
-  // console.log(userCards);
+  useEffect(() => {
+    async function inner() {
+      const response = await getAllCards();
 
-  // if (loading) {
-  //   return (
-  //     <Container className="d-flex justify-content-center mt-5">
-  //       <Spinner variant="secondary" animation="border" />
-  //     </Container>
-  //   );
-  // }
-  return <></>;
+      // gets user id
+      const localStorageUserId = JSON.parse(localStorage.getItem("user"))?._id;
 
-  // return (
-  //   <Container>
-  //     {Array.isArray(userCards) && userCards.length ? (
-  //       <Row>
-  //         {userCards.map((card) => (
-  //           <Col key={card.Data.CardID}>
-  //             <CreateCard card={card} />
-  //           </Col>
-  //         ))}
-  //       </Row>
-  //     ) : (
-  //       <h1
-  //         className={`text-center text-${theme === "dark" ? "light" : "dark"}`}
-  //       >
-  //         There are no Cards that belong to the user
-  //       </h1>
-  //     )}
-  //   </Container>
-  // );
-}
+      //filter the cards
+      const filterdCards = response.message.filter(
+        (card) => card.user_id === localStorageUserId
+      );
+
+      setCards(filterdCards);
+    }
+    inner();
+  }, []);
+
+  return (
+    <>
+      <h1 className={`text-center text-${theme === "dark" ? "light" : "dark"}`}>
+        {"User cards"}
+      </h1>
+      {/* show 1 card when small 3 when medium and 5 when large */}
+      <Row xs={1} md={3} lg={5} className="g-4">
+        {cards.map((card) => (
+          <Col key={card._id}>
+            <CreateCard card={card} isUserCard={true} />
+          </Col>
+        ))}
+      </Row>
+    </>
+  );
+};
 
 export default UserCards;

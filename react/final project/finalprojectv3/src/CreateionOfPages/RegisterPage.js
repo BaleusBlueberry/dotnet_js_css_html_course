@@ -47,7 +47,6 @@ function RegisterPage() {
   // controlls what happands when use clicks register
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(registerData);
 
     // transforms the data into the correct object type
     const payload = BuildRegisterRequestPayload(registerData);

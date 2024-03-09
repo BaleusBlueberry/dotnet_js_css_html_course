@@ -22,7 +22,6 @@ export const loginUser = (email, password) => {
       // when can't login removes the token from local storage
       .catch((error) => {
         localStorage.setItem("token", null);
-        console.log(error);
         return {
           // returns a false login and the response message from the api
           success: false,
@@ -55,7 +54,6 @@ export const GetUser = (userId) => {
   return api
     .get(`users/${userId}`)
     .then((response) => {
-      console.log(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
       return {
         success: true,
@@ -75,7 +73,6 @@ export const UpdateUser = (userId, payload) => {
   return api
     .put(`users/${userId}`, payload)
     .then((response) => {
-      console.log(response.data);
       localStorage.setItem("user", JSON.stringify(response.data));
       return {
         success: true,

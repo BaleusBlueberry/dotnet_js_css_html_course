@@ -10,18 +10,36 @@ import {
   Facebook,
   TelephoneFill,
   Trash,
+  EnvelopeAtFill,
+  Bank2,
 } from "react-bootstrap-icons";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { useNavigate } from "react-router-dom";
+import { DeleateCard, LikeCard } from "../OnlineServices/apiCards";
 
-function CreateCard({ card }, editMode = true) {
+function CreateCard({ card, isUserCard }) {
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
+  const userId = JSON.parse(localStorage.getItem("user"))?._id;
+  const [favorated, setFavirated] = useState(
+    card.likes.find((id) => id === userId)
+  );
+
+  function navigation(path) {
+    if (isUserCard) {
+      navigate("../" + path);
+    } else {
+      navigate(path);
+    }
+  }
 
   const handleFavorateItem = () => {
-    console.log(card);
-    // setFavorateCardsFunction(card, card.card.Data.Ownermail);
+    const response = LikeCard(card._id);
+    setFavirated(!favorated);
+  };
+  const handleDelCard = () => {
+    const response = DeleateCard(card._id, { bizNumber: card.bizNumber });
   };
 
   return (
@@ -31,31 +49,24 @@ function CreateCard({ card }, editMode = true) {
         style={{ width: "24rem", height: "40rem", minHeight: "30rem" }}
         className="position-relative shadow-sm"
         data-bs-theme={theme}
-        onClick={() => {
-          navigate(`SingleCard/${card._id}`);
-        }}
       >
         <Card.Header data-bs-theme={theme}>
           <Nav variant="tabs" defaultActiveKey="#first">
-            <Nav.Item key="Card">
-              <Nav.Link onClick={() => console.log("clicked")}>Card</Nav.Link>
-            </Nav.Item>
-            {card.address?.houseNumber && (
-              <Nav.Item key="Map">
-                <Nav.Link onClick={() => console.log("clicked")}>Map</Nav.Link>
-              </Nav.Item>
-            )}
-            <Nav.Item key="Edit">
-              <Nav.Link href={`/RegisterCard/${card._id}`}>Edit</Nav.Link>
-            </Nav.Item>
-            <Nav.Item key="Deleate">
-              <Nav.Link onClick={() => console.log("attemted to deleate item")}>
-                <Trash />
-              </Nav.Link>
-            </Nav.Item>
+            {isUserCard === true ? (
+              <>
+                <Nav.Item key="Edit">
+                  <Nav.Link href={`/UpdateCardPage/${card._id}`}>Edit</Nav.Link>
+                </Nav.Item>
+                <Nav.Item key="Deleate">
+                  <Nav.Link onClick={() => handleDelCard()}>
+                    <Trash />
+                  </Nav.Link>
+                </Nav.Item>
+              </>
+            ) : null}
             <Nav.Item key="Favorate">
               <Nav.Link onClick={() => handleFavorateItem()}>
-                <Heart />
+                {favorated ? <HeartFill /> : <Heart />}
               </Nav.Link>
             </Nav.Item>
           </Nav>
@@ -68,6 +79,9 @@ function CreateCard({ card }, editMode = true) {
               variant="top"
               src={card.image.url}
               alt={card.image.alt || "empty alt image"}
+              onClick={() => {
+                navigation(`SingleCard/${card._id}`);
+              }}
             />
           ) : (
             <Card.Img
@@ -88,6 +102,28 @@ function CreateCard({ card }, editMode = true) {
                     rel="noopener noreferrer"
                   >
                     <TelephoneFill size="30"></TelephoneFill>
+                  </a>
+                </Col>
+              )}
+              {card.phone && (
+                <Col>
+                  <a
+                    href={`mailto:${card.phone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <EnvelopeAtFill size="30"></EnvelopeAtFill>
+                  </a>
+                </Col>
+              )}
+              {card.web && (
+                <Col>
+                  <a
+                    href={`https://${card.web}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Bank2 size="30"></Bank2>
                   </a>
                 </Col>
               )}

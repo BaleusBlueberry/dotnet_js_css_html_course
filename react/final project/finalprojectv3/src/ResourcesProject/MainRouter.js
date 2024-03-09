@@ -9,6 +9,8 @@ import { ThemeProvider } from "../contexts/ThemeProvider";
 import UserCards from "../BuildInPages/UserCards";
 import Cards from "../BuildInPages/CardsPage";
 import SingleCard from "../BuildInPages/SingleCard";
+import UpdateCardPage from "../CreateionOfPages/UpdateCardPage";
+import Favorates from "../BuildInPages/Favorates";
 
 function MainRouter() {
   return (
@@ -24,7 +26,9 @@ function MainRouter() {
           <Route path="/RegisterCard/:id" element={<RegisterCard />} />
           <Route path="/RegisterCard" element={<RegisterCard />} />
           <Route path="/UserCards" element={<UserCards />} />
+          <Route path="/Favorates" element={<Favorates />} />
           <Route path="/SingleCard/:id" element={<SingleCard />} />
+          <Route path="/UpdateCardPage/:id" element={<UpdateCardPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

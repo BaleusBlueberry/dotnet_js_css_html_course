@@ -51,8 +51,12 @@ function Header() {
           <Nav className="me-auto">
             <Nav.Link href="/Register">Register</Nav.Link>
             <Nav.Link href="/Login">LOGIN</Nav.Link>
-            <Nav.Link href="/RegisterCard">Create Card</Nav.Link>
-            <Nav.Link href="/UserCards">UserCards</Nav.Link>
+            {user !== null ? (
+              <>
+                <Nav.Link href="/RegisterCard">Create Card</Nav.Link>
+                <Nav.Link href="/UserCards">UserCards</Nav.Link>
+              </>
+            ) : null}
           </Nav>
           <Nav>
             <Form className="d-flex" onSubmit={() => {}}>
@@ -92,7 +96,7 @@ function Header() {
                 >
                   Edit profile
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#" onClick={() => {}}>
+                <NavDropdown.Item href="/Favorates" onClick={() => {}}>
                   Favorites
                 </NavDropdown.Item>
                 <NavDropdown.Divider />

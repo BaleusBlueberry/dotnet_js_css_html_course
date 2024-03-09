@@ -6,7 +6,6 @@ import Alert from "react-bootstrap/Alert";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import { jwtDecode } from "jwt-decode";
-// import jwt from "jsonwebtoken";
 
 import { GetUser, loginUser } from "../OnlineServices/apiUsers";
 
@@ -17,6 +16,7 @@ function LoginPage() {
     email: "testfox@test.test",
     password: "Foxoblue1234!",
   });
+
   // show the alert with off/on
   const [showAlert, setShowAlert] = useState(null);
   // what massage will be displayed in the alert
@@ -36,7 +36,6 @@ function LoginPage() {
     // posts the inputed email and password to the loginuserv2 and wait for response
     const response = await loginUser(registerData.email, registerData.password);
     // writes the response to console
-    console.log(response);
     // the input from the api response.success from userservises true/false
     if (!response.success) {
       setAlertMassage(response.message);

@@ -30,7 +30,6 @@ export default function BuildRegisterRequestPayload(data) {
   if (data.hasOwnProperty("isBusiness")) {
     payload.isBusiness = data.isBusiness || false;
   }
-  console.log(payload);
 
   return payload;
 }
