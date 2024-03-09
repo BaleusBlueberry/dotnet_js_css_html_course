@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import Dropdown from "react-bootstrap/Dropdown";
 import Alert from "react-bootstrap/Alert";
 import CreateComp from "../ResourcesProject/CreateComp";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
-import { UpdateUser, registerUser } from "../OnlineServices/apiUsers";
+import { UpdateUser } from "../OnlineServices/apiUsers";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../contexts/ThemeProvider";
 import BuildRegisterRequestPayload from "../ResourcesProject/RegisterBuilder";

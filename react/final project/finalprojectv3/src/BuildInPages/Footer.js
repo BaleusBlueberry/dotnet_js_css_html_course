@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../contexts/ThemeProvider";
 
 function Footer() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
     <footer

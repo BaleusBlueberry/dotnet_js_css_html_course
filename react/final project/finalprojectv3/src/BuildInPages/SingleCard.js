@@ -1,4 +1,3 @@
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -6,8 +5,6 @@ import Nav from "react-bootstrap/Nav";
 import {
   Heart,
   HeartFill,
-  Buildings,
-  Facebook,
   TelephoneFill,
   Trash,
   EnvelopeAtFill,
@@ -15,13 +12,12 @@ import {
 } from "react-bootstrap-icons";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../contexts/ThemeProvider";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { DeleateCard, LikeCard, getCard } from "../OnlineServices/apiCards";
 
 function SingleCard(editMode = true) {
   const { theme } = useContext(ThemeContext);
   const [card, setCard] = useState([]);
-  const navigate = useNavigate();
   // reads the id of the page
   const { id } = useParams();
 
