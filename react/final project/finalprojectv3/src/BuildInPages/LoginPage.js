@@ -13,8 +13,8 @@ import { GetUser, loginUser } from "../OnlineServices/apiUsers";
 function LoginPage() {
   //store the user and password data
   const [registerData, setRegisterData] = useState({
-    email: "testfox@test.test",
-    password: "Foxoblue1234!",
+    email: "",
+    password: "",
   });
 
   // show the alert with off/on
